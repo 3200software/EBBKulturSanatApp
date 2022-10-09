@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "540910775157",
+    "project_id": "ebbkultursanatapp",
+    "storage_bucket": "ebbkultursanatapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:540910775157:android:9ab18f41aa42c371bd013c",
+        "android_client_info": {
+          "package_name": "com.software3200.ebbkultursanatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "540910775157-ri58ttpst3koo94js3q6r5lo41keo779.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjmuD7jxm--y9X29pRxANxhAmllHu7cN8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "540910775157-ri58ttpst3koo94js3q6r5lo41keo779.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
