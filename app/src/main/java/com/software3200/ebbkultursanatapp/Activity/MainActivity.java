@@ -1,4 +1,4 @@
-package com.software3200.ebbkultursanatapp;
+package com.software3200.ebbkultursanatapp.Activity;
 
 import android.os.Bundle;
 
@@ -10,6 +10,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.software3200.ebbkultursanatapp.R;
 import com.software3200.ebbkultursanatapp.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
