@@ -8,6 +8,7 @@
     tools:context=".Activity.ActivityDetailActivity">
 
     <ImageView
+        android:id="@+id/activityImageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@drawable/common_full_open_on_phone"
@@ -15,6 +16,7 @@
 
 
     <TextView
+        android:id="@+id/activityTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Activity Title"
@@ -23,29 +25,56 @@
         android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"></TextView>
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/black"
-        app:cardCornerRadius="10dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="15dp">
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_location"
+            app:tint="?android:attr/colorMultiSelectHighlight"></ImageView>
 
 
         <TextView
-            android:id="@+id/activityCategoryTextView"
+            android:id="@+id/activityLocationTextView"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text="Activity"
-            android:textColor="@color/white"
-            android:textSize="15dp"
-            android:paddingTop="3dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:layout_height="wrap_content"
+            android:text="Location"
+            android:textSize="12dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
             ></TextView>
 
-    </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/black"
+            app:cardCornerRadius="10dp"
+            android:layout_marginRight="15dp">
+
+
+            <TextView
+                android:id="@+id/activityCategoryTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="Activity"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:paddingTop="3dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                ></TextView>
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
 
 
     <LinearLayout
@@ -167,6 +196,7 @@
 
 
     <Button
+        android:id="@+id/activityButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Activity Button"
@@ -190,6 +220,7 @@
             >
 
             <Button
+                android:id="@+id/activityInfoTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Etkinlik Bilgileri"
@@ -202,6 +233,7 @@
 
 
             <Button
+                android:id="@+id/activiyDescriptionButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Açıklama"
@@ -212,6 +244,7 @@
                 ></Button>
 
             <Button
+                android:id="@+id/activityLocationButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Konum"
@@ -246,6 +279,7 @@
                ></ImageView>
 
             <TextView
+                android:id="@+id/activityCategoryDetailTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Activity Category"
@@ -278,6 +312,7 @@
                 ></ImageView>
 
             <TextView
+                android:id="@+id/activityDAteDetailTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Date Detail"
@@ -310,6 +345,7 @@
                 ></ImageView>
 
             <TextView
+                android:id="@+id/activityDetailPhoneNumberTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Phone Number"
@@ -343,6 +379,7 @@
                 ></ImageView>
 
             <TextView
+                android:id="@+id/activityPriceInfoDetailTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Price Info"
@@ -374,6 +411,7 @@
                 ></ImageView>
 
             <TextView
+                android:id="activityOrganizationCompanyDetailTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Organization Company"
@@ -398,6 +436,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/activityDescriptionTitleTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Description Title"
@@ -410,9 +449,10 @@
             ></TextView>
 
         <TextView
+            android:id="@+id/activityDescriptionTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Description Title"
+            android:text="Description"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="5dp"
             android:layout_marginRight="15dp"
@@ -441,6 +481,7 @@
 
 
             <TextView
+                android:id="@+id/activityAdressDescriptionDetailTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Adress Description"
