@@ -81,6 +81,8 @@ public class ActivityDetailActivity extends AppCompatActivity {
                         binding.activityCategoryTextView.setText(activityCategory);
 
 
+
+
                         if (activityEndDate == null) {
 
                             Calendar cal = Calendar.getInstance();
@@ -134,13 +136,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
                             binding.activityDateMonthTextView2.setText(monthend);
                             binding.activiyDateDayTextview2.setText(dayend);
 
-
-
-
                         }
-
-
-
 
                     }
 
