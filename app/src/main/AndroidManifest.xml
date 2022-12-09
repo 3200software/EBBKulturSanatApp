@@ -14,7 +14,7 @@
         android:theme="@style/Theme.EBBKulturSanatApp"
         tools:targetApi="31" >
         <activity
-            android:name=".ActivityDetailActivity"
+            android:name=".Activity.ActivityDetailActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.MainActivity"

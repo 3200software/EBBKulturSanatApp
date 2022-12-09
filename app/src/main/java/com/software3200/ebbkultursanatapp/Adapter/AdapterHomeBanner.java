@@ -32,7 +32,7 @@ public class AdapterHomeBanner extends RecyclerView.Adapter<AdapterHomeBanner.Ho
     @Override
     public void onBindViewHolder(@NonNull HomeBannerHolder holder, int position) {
 
-        Picasso.get().load(modelHomeBannerArrayList.get(position).activityCategoryName).into(holder.recyclerRowMainBannerBinding.homeNewsRecyclerView);
+        Picasso.get().load(modelHomeBannerArrayList.get(position).activityImgUrl).into(holder.recyclerRowMainBannerBinding.homeNewsRecyclerView);
         String homeBannnerCategoryName = modelHomeBannerArrayList.get(position).activityCategoryName;
         String homeBannerDocumnetId = modelHomeBannerArrayList.get(position).activityDocumentId;
 
@@ -44,7 +44,7 @@ public class AdapterHomeBanner extends RecyclerView.Adapter<AdapterHomeBanner.Ho
 
     @Override
     public int getItemCount() {
-        return 8;
+        return modelHomeBannerArrayList.size();
     }
 
     class HomeBannerHolder extends RecyclerView.ViewHolder {

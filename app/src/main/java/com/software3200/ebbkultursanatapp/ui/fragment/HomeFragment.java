@@ -30,7 +30,7 @@ import java.util.Map;
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
-    FirebaseFirestore firebaseFirestore;
+    private FirebaseFirestore firebaseFirestore;
 
     ArrayList<ModelHomeBanner> modelHomeBannerArrayList;
     AdapterHomeBanner adapterHomeBanner;
@@ -47,9 +47,9 @@ public class HomeFragment extends Fragment {
         modelHomeBannerArrayList = new ArrayList<>();
         getHomeBanner();
         LinearLayoutManager linearLayoutHomeBanner = new LinearLayoutManager(requireActivity());
-        binding.homeActivityRecyclerView.setLayoutManager(linearLayoutHomeBanner);
+        binding.homeBannerRecyclerView.setLayoutManager(linearLayoutHomeBanner);
         adapterHomeBanner = new AdapterHomeBanner(modelHomeBannerArrayList);
-        binding.homeActivityRecyclerView.setAdapter(adapterHomeBanner);
+        binding.homeBannerRecyclerView.setAdapter(adapterHomeBanner);
 
 
         return root;
@@ -70,27 +70,46 @@ public class HomeFragment extends Fragment {
 
                     if (error != null) {
 
-                        Toast.makeText(requireActivity(),"İnternet bağlantısında bir problem var. Lütfen bağlantınız kontrol edin.",Toast.LENGTH_LONG).show();
+
+                        Toast.makeText(requireActivity(),"İnternet bağlantısında bir problem varsaasa. Lütfen bağlantınız kontrol edin.",Toast.LENGTH_LONG).show();
 
                     }
 
 
-                for (DocumentSnapshot snapshot : value.getDocuments()) {
+                    if (value != null) {
 
-                    Map<String, Object> data = snapshot.getData();
+                        System.out.println("hoop" );
 
-                    String activityImgUrl = (String) data.get("activityImgUrl");
-                    String activityCategoryName = (String) data.get("activityCategoryName");
-                    String activityDocumentId = (String) data.get("activityDocumentId");
+                        System.out.println(value);
+
+                        System.out.println(value.getDocuments());
 
 
 
-                    ModelHomeBanner modelHomeBanner = new ModelHomeBanner(activityImgUrl,activityCategoryName,activityDocumentId);
-                    modelHomeBannerArrayList.add(modelHomeBanner);
+                        for (DocumentSnapshot snapshot : value.getDocuments()) {
 
-                }
+                            System.out.println(snapshot.getData());
 
-                adapterHomeBanner.notifyDataSetChanged();
+                              Map<String, Object> data = snapshot.getData();
+
+                              String activityImgUrl = (String) data.get("activityImgUrl");
+                              String activityCategoryName = (String) data.get("activityCategoryName");
+                              String activityDocumentId = (String) data.get("activityDocumentId");
+
+                             System.out.println(activityImgUrl );
+
+                             ModelHomeBanner modelHomeBanner = new ModelHomeBanner(activityImgUrl,activityCategoryName,activityDocumentId);
+                             modelHomeBannerArrayList.add(modelHomeBanner);
+
+                         }
+
+
+                        adapterHomeBanner.notifyDataSetChanged();
+                    }
+
+
+
+
             }
         });
 
