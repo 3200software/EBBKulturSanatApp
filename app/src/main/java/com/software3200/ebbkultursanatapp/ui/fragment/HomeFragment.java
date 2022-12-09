@@ -71,7 +71,7 @@ public class HomeFragment extends Fragment {
                     if (error != null) {
 
 
-                        Toast.makeText(requireActivity(),"İnternet bağlantısında bir problem varsaasa. Lütfen bağlantınız kontrol edin.",Toast.LENGTH_LONG).show();
+                        Toast.makeText(requireActivity(),"İnternet bağlantısında bir problem var. Lütfen bağlantınız kontrol edin.",Toast.LENGTH_LONG).show();
 
                     }
 
