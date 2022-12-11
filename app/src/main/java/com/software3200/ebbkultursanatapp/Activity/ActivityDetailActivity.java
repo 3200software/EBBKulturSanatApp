@@ -3,6 +3,7 @@ package com.software3200.ebbkultursanatapp.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -25,7 +26,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
     FirebaseFirestore firebaseFirestore;
 
-    String activityDetailDocumntID;
+    String activityDetailDocumentID;
 
 
     @Override
@@ -41,6 +42,8 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
 
 
+
+
     }
 
 
@@ -48,30 +51,97 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
 
 
-        firebaseFirestore.collection("Activity").document(activityDetailDocumntID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        firebaseFirestore.collection("Activity").document(activityDetailDocumentID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
                 if (task.isSuccessful()) {
 
-                    DocumentSnapshot documemnt = task.getResult();
-                    if (documemnt.exists()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
 
-                        String activityImgUrl = (String) documemnt.get("activityImgUrl");
-                        String activitytitle = (String) documemnt.get("activityTitle");
-                        String activityDetail = (String) documemnt.get("activityDetail");
-                        String activityDetailTitle = (String) documemnt.get("activityDetailTitle");
-                        String activityCategory = (String) documemnt.get("activityCategory");
-                        String activityOrganization = (String) documemnt.get("activityOrganization");
-                        Date activityDate = (Date) documemnt.get("activityDate");
-                        Date activityBeginDate = (Date) documemnt.get("activityBeginDate");
-                        Date activityEndDate = (Date) documemnt.get("activityEndDate");
-                        Long activityPriceInfo = (Long) documemnt.get("activityPriceInfo");
-                        String activityLocation = (String) documemnt.get("activityLocation");
-                        String activityLocationAdress = (String) documemnt.get("activityLocationAdress");
-                        Long activityLocationLatitude = (Long) documemnt.get("activityLocationLatitude");
-                        Long activityLocationLongitude = (Long) documemnt.get("activityLocationLongitude");
-                        String activityTelephoneNumber = (String) documemnt.get("activiactivityTelephoneNumbertyTitle");
+                        String activityImgUrl = (String) document.get("activityImgUrl");
+                        String activitytitle = (String) document.get("activityTitle");
+                        String activityDetail = (String) document.get("activityDetail");
+                        String activityDetailTitle = (String) document.get("activityDetailTitle");
+                        String activityCategory = (String) document.get("activityCategory");
+                        String activityOrganization = (String) document.get("activityOrganization");
+                        Date activityDate = (Date) document.get("activityDate");
+                        Date activityBeginDate = (Date) document.get("activityBeginDate");
+                        Date activityEndDate = (Date) document.get("activityEndDate");
+
+
+
+
+
+                        String activityLocation = (String) document.get("activityLocation");
+                        String activityLocationAdress = (String) document.get("activityLocationAdress");
+                        Long activityLocationLatitude = (Long) document.get("activityLocationLatitude");
+                        Long activityLocationLongitude = (Long) document.get("activityLocationLongitude");
+                        String activityTelephoneNumber = (String) document.get("activiactivityTelephoneNumbertyTitle");
+
+                        Boolean activityTicketFreeInfo = (Boolean)  document.get("activityTicketFreeInfo");
+                        Long activityTicketStudentPrice = (Long)  document.get("activityTicketStudentPrice");
+                        Long activityTicketAdultPrice = (Long)  document.get("activityTicketAdultPrice");
+
+                        Long activityTicketClass1Price = (Long)  document.get("activityTicketClass1Price");
+                        String activityTicketClass1Name = (String)  document.get("activityTicketClass1Name");
+                        Long activityTicketClass2Price = (Long)  document.get("activityTicketClass2Price");
+                        String activityTicketClass2Name = (String)  document.get("activityTicketClass2Name");
+                        Long activityTicketClass3Price = (Long)  document.get("activityTicketClass3Price");
+                        String activityTicketClass3Name = (String)  document.get("activityTicketClass3Name");
+                        Long activityTicketClass4Price = (Long)  document.get("activityTicketClass4Price");
+                        String activityTicketClass4Name = (String)  document.get("activityTicketClass4Name");
+
+                        if (activityTicketFreeInfo == true) {
+
+                            binding.activityPriceInfoDetailTextView.setText("Ücretsiz");
+
+                        } else {
+
+
+                            if (activityTicketStudentPrice == 0 && activityTicketAdultPrice != 0) {
+
+                                binding.activityPriceInfoDetailTextView.setText(activityTicketAdultPrice + " TL");
+
+
+                            } else if (activityTicketStudentPrice != 0 && activityTicketAdultPrice != 0) {
+
+                                binding.activityPriceInfoDetailTextView.setText("Tam : " + activityTicketAdultPrice + " TL\n" );
+                                binding.activityPriceInfoDetailTextView.setText("Öğrenci : " + activityTicketStudentPrice + " TL");
+
+                            } else if (activityTicketStudentPrice == 0 && activityTicketAdultPrice == 0) {
+
+
+                                if (activityTicketClass1Price != 0 && activityTicketClass2Price == 0  && activityTicketClass3Price == 0  && activityTicketClass4Price == 0) {
+
+
+                                    binding.activityPriceInfoDetailTextView.setText(activityTicketClass1Name + " : " + activityTicketClass1Price + " TL\n" );
+
+
+                                } else if  (activityTicketClass1Price != 0 && activityTicketClass2Price != 0  && activityTicketClass3Price == 0  && activityTicketClass4Price == 0) {
+
+                                    binding.activityPriceInfoDetailTextView.setText(activityTicketClass1Name + " : " + activityTicketClass1Price + " TL\n" );
+                                    binding.activityPriceInfoDetailTextView.setText(activityTicketClass2Name + " : " + activityTicketClass2Price + " TL\n" );
+
+                                } else if  (activityTicketClass1Price != 0 && activityTicketClass2Price != 0  && activityTicketClass3Price != 0  && activityTicketClass4Price == 0) {
+
+                                    binding.activityPriceInfoDetailTextView.setText(activityTicketClass1Name + " : " + activityTicketClass1Price + " TL\n" );
+                                    binding.activityPriceInfoDetailTextView.setText(activityTicketClass2Name + " : " + activityTicketClass2Price + " TL\n" );
+                                    binding.activityPriceInfoDetailTextView.setText(activityTicketClass3Name + " : " + activityTicketClass3Price + " TL\n" );
+
+                                } else if  (activityTicketClass1Price != 0 && activityTicketClass2Price != 0  && activityTicketClass3Price != 0  && activityTicketClass4Price != 0) {
+
+                                    binding.activityPriceInfoDetailTextView.setText(activityTicketClass1Name + " : " + activityTicketClass1Price + " TL\n" );
+                                    binding.activityPriceInfoDetailTextView.setText(activityTicketClass2Name + " : " + activityTicketClass2Price + " TL\n" );
+                                    binding.activityPriceInfoDetailTextView.setText(activityTicketClass3Name + " : " + activityTicketClass3Price + " TL\n" );
+                                    binding.activityPriceInfoDetailTextView.setText(activityTicketClass4Name + " : " + activityTicketClass4Price + " TL\n" );
+
+                                }
+
+                            }
+
+                        }
 
 
 
@@ -79,7 +149,11 @@ public class ActivityDetailActivity extends AppCompatActivity {
                         binding.activityTitleTextView.setText(activitytitle);
                         binding.activityLocationTextView.setText(activityLocation);
                         binding.activityCategoryTextView.setText(activityCategory);
-
+                        binding.activityDetailTitleTextView.setText(activityDetailTitle);
+                        binding.activityDetailTextView.setText(activityDetail);
+                        binding.activityOrganizationCompanyDetailTextView.setText(activityOrganization);
+                        binding.activityAdressDescriptionDetailTextView.setText(activityLocationAdress);
+                        binding.activityDetailPhoneNumberTextView.setText(activityTelephoneNumber);
 
 
 

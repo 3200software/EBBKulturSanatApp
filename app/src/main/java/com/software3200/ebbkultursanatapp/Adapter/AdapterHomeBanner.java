@@ -1,5 +1,6 @@
 package com.software3200.ebbkultursanatapp.Adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.software3200.ebbkultursanatapp.Activity.ActivityDetailActivity;
 import com.software3200.ebbkultursanatapp.Model.ModelHomeBanner;
 import com.software3200.ebbkultursanatapp.databinding.RecyclerRowMainBannerBinding;
 import com.squareup.picasso.Picasso;
@@ -36,6 +38,17 @@ public class AdapterHomeBanner extends RecyclerView.Adapter<AdapterHomeBanner.Ho
         String homeBannnerCategoryName = modelHomeBannerArrayList.get(position).activityCategoryName;
         String homeBannerDocumnetId = modelHomeBannerArrayList.get(position).activityDocumentId;
 
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent homeBannerToActivityDetailIntent = new Intent(holder.itemView.getContext(), ActivityDetailActivity.class);
+                homeBannerToActivityDetailIntent.putExtra("AcitityDocumentId", homeBannerDocumnetId);
+                holder.itemView.getContext().startActivity(homeBannerToActivityDetailIntent);
+
+            }
+        });
 
 
 
