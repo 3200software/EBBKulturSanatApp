@@ -26,7 +26,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
     FirebaseFirestore firebaseFirestore;
 
-    String activityDetailDocumentID;
+    String activityDocumentID;
 
 
     @Override
@@ -37,6 +37,9 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
         binding = ActivityDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        Intent intent = getIntent();
+        activityDocumentID = intent.getStringExtra("ActivityDocumentId");
 
 
 
@@ -51,7 +54,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
 
 
-        firebaseFirestore.collection("Activity").document(activityDetailDocumentID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        firebaseFirestore.collection("Events").document(activityDocumentID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
@@ -69,10 +72,6 @@ public class ActivityDetailActivity extends AppCompatActivity {
                         Date activityDate = (Date) document.get("activityDate");
                         Date activityBeginDate = (Date) document.get("activityBeginDate");
                         Date activityEndDate = (Date) document.get("activityEndDate");
-
-
-
-
 
                         String activityLocation = (String) document.get("activityLocation");
                         String activityLocationAdress = (String) document.get("activityLocationAdress");

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activity.TicketSelectActivity">
+
+
+    <TextView
+        android:id="@+id/ticketSelectTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bilet Seç"
+        android:textSize="30dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="20dp"></TextView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/adultTicketLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/teal_200"
+        app:cardCornerRadius="10dp"
+        android:layout_margin="25dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" Tam"
+            android:textSize="25dp"
+            android:layout_marginLeft="35dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"></TextView>
+
+
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="-"
+            android:textSize="50dp"
+            android:gravity="center"
+            android:background="@drawable/ic_launcher_background"
+            android:layout_gravity="center"></Button>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="50dp"
+            android:text="0"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+        </TextView>
+
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="+"
+            android:textSize="50dp"
+            android:gravity="center"
+            android:background="@drawable/ic_launcher_background"
+            android:layout_gravity="center"
+            android:layout_marginRight="35dp"></Button>
+
+
+
+    </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</androidx.appcompat.widget.LinearLayoutCompat>

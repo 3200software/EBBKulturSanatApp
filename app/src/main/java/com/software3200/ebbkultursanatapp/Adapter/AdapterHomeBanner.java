@@ -44,7 +44,7 @@ public class AdapterHomeBanner extends RecyclerView.Adapter<AdapterHomeBanner.Ho
             public void onClick(View view) {
 
                 Intent homeBannerToActivityDetailIntent = new Intent(holder.itemView.getContext(), ActivityDetailActivity.class);
-                homeBannerToActivityDetailIntent.putExtra("AcitityDocumentId", homeBannerDocumnetId);
+                homeBannerToActivityDetailIntent.putExtra("ActivityDocumentId", homeBannerDocumnetId);
                 holder.itemView.getContext().startActivity(homeBannerToActivityDetailIntent);
 
             }

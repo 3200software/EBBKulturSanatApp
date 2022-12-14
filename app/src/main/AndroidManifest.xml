@@ -14,6 +14,9 @@
         android:theme="@style/Theme.EBBKulturSanatApp"
         tools:targetApi="31" >
         <activity
+            android:name=".Activity.TicketSelectActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.ActivityDetailActivity"
             android:exported="false" />
         <activity
