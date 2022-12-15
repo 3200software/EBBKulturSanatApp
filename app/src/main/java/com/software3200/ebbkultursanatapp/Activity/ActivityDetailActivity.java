@@ -38,23 +38,24 @@ public class ActivityDetailActivity extends AppCompatActivity {
         binding = ActivityDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
         Intent intent = getIntent();
         activityDocumentID = intent.getStringExtra("ActivityDocumentId");
 
+        binding.activityButton.setText("Bilet Al");
 
 
-
-
-
+         getActivityDetail();
 
     }
 
 
     public void getActivityDetail() {
 
+        System.out.println("did" + activityDocumentID);
 
-
-        firebaseFirestore.collection("Events").document(activityDocumentID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        firebaseFirestore.collection("Events").document("AMrY2Kus3303A2hs8C6p").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
@@ -92,9 +93,15 @@ public class ActivityDetailActivity extends AppCompatActivity {
                         Long activityTicketClass4Price = (Long)  document.get("activityTicketClass4Price");
                         String activityTicketClass4Name = (String)  document.get("activityTicketClass4Name");
 
+
+
+
+
+
                         if (activityTicketFreeInfo == true) {
 
                             binding.activityPriceInfoDetailTextView.setText("Ücretsiz");
+
 
                         } else {
 

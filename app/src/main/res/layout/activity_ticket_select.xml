@@ -8,18 +8,11 @@
     tools:context=".Activity.TicketSelectActivity">
 
 
-    <TextView
-        android:id="@+id/ticketSelectTitleTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Bilet Seç"
-        android:textSize="30dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginLeft="20dp"></TextView>
+
 
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/adultTicketLayout"
+        android:id="@+id/ticketSelect1Layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/teal_200"
@@ -33,6 +26,7 @@
         >
 
         <TextView
+            android:id="@+id/ticketSelect1TitleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=" Tam"
@@ -43,6 +37,7 @@
 
 
         <Button
+            android:id="@+id/ticketselect1AddPositiveButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:text="-"
@@ -51,17 +46,32 @@
             android:background="@drawable/ic_launcher_background"
             android:layout_gravity="center"></Button>
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="50dp"
-            android:text="0"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
-        </TextView>
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/ticketSelect1NumberTextview"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:textSize="40dp"
+                android:text="0"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                >
+            </TextView>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Adet"
+                android:layout_gravity="center"></TextView>
+        </LinearLayout>
 
         <Button
+            android:id="@+id/ticketSelect1NegativeButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:text="+"
@@ -71,9 +81,245 @@
             android:layout_gravity="center"
             android:layout_marginRight="35dp"></Button>
 
-
-
     </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/ticketSelect2Layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/teal_200"
+        app:cardCornerRadius="10dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="25dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:id="@+id/ticketSelect2TitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Tam"
+                android:textSize="25dp"
+                android:layout_marginLeft="35dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"></TextView>
+
+
+            <Button
+                android:id="@+id/ticketselect2AddPositiveButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="-"
+                android:textSize="50dp"
+                android:gravity="center"
+                android:background="@drawable/ic_launcher_background"
+                android:layout_gravity="center"></Button>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/ticketSelect2NumberTextview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:textSize="40dp"
+                    android:text="0"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    >
+                </TextView>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Adet"
+                    android:layout_gravity="center"></TextView>
+            </LinearLayout>
+
+
+
+            <Button
+                android:id="@+id/ticketSelect2NegativeButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="+"
+                android:textSize="50dp"
+                android:gravity="center"
+                android:background="@drawable/ic_launcher_background"
+                android:layout_gravity="center"
+                android:layout_marginRight="35dp"></Button>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/ticketSelect3Layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/teal_200"
+        app:cardCornerRadius="10dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="25dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:id="@+id/ticketSelect3TitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Tam"
+                android:textSize="25dp"
+                android:layout_marginLeft="35dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"></TextView>
+
+
+            <Button
+                android:id="@+id/ticketselect3AddPositiveButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="-"
+                android:textSize="50dp"
+                android:gravity="center"
+                android:background="@drawable/ic_launcher_background"
+                android:layout_gravity="center"></Button>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/ticketSelect3NumberTextview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:textSize="40dp"
+                    android:text="0"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    >
+                </TextView>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Adet"
+                    android:layout_gravity="center"></TextView>
+            </LinearLayout>
+
+
+
+            <Button
+                android:id="@+id/ticketSelect3NegativeButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="+"
+                android:textSize="50dp"
+                android:gravity="center"
+                android:background="@drawable/ic_launcher_background"
+                android:layout_gravity="center"
+                android:layout_marginRight="35dp"></Button>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/ticketSelect4Layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/teal_200"
+        app:cardCornerRadius="10dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="25dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:id="@+id/ticketSelect4TitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Tam"
+                android:textSize="25dp"
+                android:layout_marginLeft="35dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"></TextView>
+
+
+            <Button
+                android:id="@+id/ticketselect4AddPositiveButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="-"
+                android:textSize="50dp"
+                android:gravity="center"
+                android:background="@drawable/ic_launcher_background"
+                android:layout_gravity="center"></Button>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/ticketSelect4NumberTextview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:textSize="40dp"
+                    android:text="0"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    >
+                </TextView>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Adet"
+                    android:layout_gravity="center"></TextView>
+            </LinearLayout>
+
+
+
+            <Button
+                android:id="@+id/ticketSelect4NegativeButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="+"
+                android:textSize="50dp"
+                android:gravity="center"
+                android:background="@drawable/ic_launcher_background"
+                android:layout_gravity="center"
+                android:layout_marginRight="35dp"></Button>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+
 </androidx.appcompat.widget.LinearLayoutCompat>
