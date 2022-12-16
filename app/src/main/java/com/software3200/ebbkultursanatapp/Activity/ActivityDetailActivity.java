@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.software3200.ebbkultursanatapp.R;
@@ -16,6 +17,7 @@ import com.software3200.ebbkultursanatapp.databinding.ActivityDetailBinding;
 import com.software3200.ebbkultursanatapp.databinding.ActivityMainBinding;
 import com.squareup.picasso.Picasso;
 
+import java.sql.SQLOutput;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -70,19 +72,19 @@ public class ActivityDetailActivity extends AppCompatActivity {
                         String activityDetailTitle = (String) document.get("activityDetailTitle");
                         String activityCategory = (String) document.get("activityCategory");
                         String activityOrganization = (String) document.get("activityOrganization");
-                        Date activityDate = (Date) document.get("activityDate");
-                        Date activityBeginDate = (Date) document.get("activityBeginDate");
-                        Date activityEndDate = (Date) document.get("activityEndDate");
+                        Timestamp activityDateTimestamp = (Timestamp) document.get("activityDate");
+                        Timestamp activityBeginDateTimeStamp = (Timestamp) document.get("activityBeginDate");
+                        Timestamp activityEndDateTimestamp = (Timestamp) document.get("activityEndDate");
 
                         String activityLocation = (String) document.get("activityLocation");
                         String activityLocationAdress = (String) document.get("activityLocationAdress");
-                        Long activityLocationLatitude = (Long) document.get("activityLocationLatitude");
-                        Long activityLocationLongitude = (Long) document.get("activityLocationLongitude");
+                        Double activityLocationLatitudeLong = (Double) document.get("activityLocationLatitude");
+                        Double activityLocationLongitudeLong = (Double) document.get("activityLocationLongitude");
                         String activityTelephoneNumber = (String) document.get("activiactivityTelephoneNumbertyTitle");
 
                         Boolean activityTicketFreeInfo = (Boolean)  document.get("activityTicketFreeInfo");
-                        Long activityTicketStudentPrice = (Long)  document.get("activityTicketStudentPrice");
-                        Long activityTicketAdultPrice = (Long)  document.get("activityTicketAdultPrice");
+                        Double activityTicketStudentPrice = (Double)  document.get("activityTicketStudentPrice");
+                        Double activityTicketAdultPrice = (Double)  document.get("activityTicketAdultPrice");
 
                         Long activityTicketClass1Price = (Long)  document.get("activityTicketClass1Price");
                         String activityTicketClass1Name = (String)  document.get("activityTicketClass1Name");
@@ -92,6 +94,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
                         String activityTicketClass3Name = (String)  document.get("activityTicketClass3Name");
                         Long activityTicketClass4Price = (Long)  document.get("activityTicketClass4Price");
                         String activityTicketClass4Name = (String)  document.get("activityTicketClass4Name");
+
 
 
 
@@ -163,7 +166,14 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
 
 
-                        if (activityEndDate == null) {
+
+
+
+                        if (activityEndDateTimestamp.getSeconds() < 1262296800) {
+
+                            Date activityDate = activityDateTimestamp.toDate();
+
+                            System.out.println("date" + activityDate);
 
                             Calendar cal = Calendar.getInstance();
                             cal.setTime(activityDate);
@@ -174,7 +184,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
                             String day = new SimpleDateFormat("EEEE").format(cal.getTime());
                             String time = new SimpleDateFormat("HH:mm").format(cal.getTime());
 
-                            binding.activitDateDayNumberTextView.setText(dayInt);
+                            binding.activitDateDayNumberTextView.setText(String.valueOf(dayInt));
                             binding.activityDateMonthTextView.setText(month);
                             binding.activiyDateDayTextview.setText(day);
 
@@ -191,6 +201,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
                         } else {
 
+                            Date activityBeginDate = activityBeginDateTimeStamp.toDate();
 
                             Calendar beginCal = Calendar.getInstance();
                             beginCal.setTime(activityBeginDate);
@@ -203,6 +214,8 @@ public class ActivityDetailActivity extends AppCompatActivity {
                             binding.activitDateDayNumberTextView.setText(dayInt);
                             binding.activityDateMonthTextView.setText(month);
                             binding.activiyDateDayTextview.setText(day);
+
+                            Date activityEndDate = activityEndDateTimestamp.toDate();
 
                             Calendar endCal = Calendar.getInstance();
                             endCal.setTime(activityEndDate);
