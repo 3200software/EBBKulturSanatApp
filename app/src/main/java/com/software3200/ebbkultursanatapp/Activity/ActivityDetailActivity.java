@@ -50,6 +50,8 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
          getActivityDetail();
 
+
+
     }
 
 
@@ -80,7 +82,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
                         String activityLocationAdress = (String) document.get("activityLocationAdress");
                         Double activityLocationLatitudeLong = (Double) document.get("activityLocationLatitude");
                         Double activityLocationLongitudeLong = (Double) document.get("activityLocationLongitude");
-                        String activityTelephoneNumber = (String) document.get("activiactivityTelephoneNumbertyTitle");
+                        String activityTelephoneNumber = (String) document.get("activiactivityTelephoneNumberTitle");
 
                         Boolean activityTicketFreeInfo = (Boolean)  document.get("activityTicketFreeInfo");
                         Double activityTicketStudentPrice = (Double)  document.get("activityTicketStudentPrice");

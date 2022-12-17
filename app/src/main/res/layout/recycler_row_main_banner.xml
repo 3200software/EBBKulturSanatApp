@@ -14,7 +14,9 @@
     <ImageView
         android:id="@+id/homeNewsRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></ImageView>
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        ></ImageView>
 
     </androidx.cardview.widget.CardView>
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -7,12 +7,37 @@
     android:orientation="vertical"
     tools:context=".Activity.ActivityDetailActivity">
 
-    <ImageView
-        android:id="@+id/activityImageView"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/common_full_open_on_phone"
-        app:tint="?android:attr/colorMultiSelectHighlight"></ImageView>
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp">
+
+
+                <ImageView
+                    android:id="@+id/activityImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    android:scaleType="fitCenter"
+                    android:layout_gravity="center"
+
+
+                    ></ImageView>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+
 
 
     <TextView
@@ -37,6 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_action_location"
+            android:layout_gravity="center"
             app:tint="?android:attr/colorMultiSelectHighlight"></ImageView>
 
 
@@ -498,6 +524,11 @@
 
 
     </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
 
 
 
