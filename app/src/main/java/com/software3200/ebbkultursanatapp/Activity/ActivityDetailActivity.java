@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.View;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,6 +31,10 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
     String activityDocumentID;
 
+    Integer infoLayoutHeight;
+    Integer descriptionLayoutHeight;
+    Integer locationLayoutHeihgt;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +53,52 @@ public class ActivityDetailActivity extends AppCompatActivity {
         binding.activityButton.setText("Bilet Al");
 
 
-         getActivityDetail();
 
+
+
+
+        getActivityDetail();
+
+         binding.activityInfoButton.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+
+             binding.activityInfoLinearLayout.setVisibility(View.VISIBLE);
+             binding.descriptionLinearLayout.setVisibility(View.INVISIBLE);
+             binding.locationInfoLinearLayout.setVisibility(View.INVISIBLE);
+
+
+
+             }
+         });
+
+         binding.activiyDescriptionButton.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+
+                 binding.activityInfoLinearLayout.setVisibility(View.INVISIBLE);
+                 binding.descriptionLinearLayout.setVisibility(View.VISIBLE);
+                 binding.locationInfoLinearLayout.setVisibility(View.INVISIBLE);
+
+
+
+
+
+             }
+         });
+
+         binding.activityLocationButton.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+
+                 binding.activityInfoLinearLayout.setVisibility(View.INVISIBLE);
+                 binding.descriptionLinearLayout.setVisibility(View.INVISIBLE);
+                 binding.locationInfoLinearLayout.setVisibility(View.VISIBLE);
+
+
+
+             }
+         });
 
 
     }
@@ -79,7 +128,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
                         Timestamp activityEndDateTimestamp = (Timestamp) document.get("activityEndDate");
 
                         String activityLocation = (String) document.get("activityLocation");
-                        String activityLocationAdress = (String) document.get("activityLocationAdress");
+                        String activityLocationAdress = (String) document.get("activityLocationAdressDetail");
                         Double activityLocationLatitudeLong = (Double) document.get("activityLocationLatitude");
                         Double activityLocationLongitudeLong = (Double) document.get("activityLocationLongitude");
                         String activityTelephoneNumber = (String) document.get("activiactivityTelephoneNumberTitle");
@@ -118,8 +167,8 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
                             } else if (activityTicketStudentPrice != 0 && activityTicketAdultPrice != 0) {
 
-                                binding.activityPriceInfoDetailTextView.setText("Tam : " + activityTicketAdultPrice + " TL\n" );
-                                binding.activityPriceInfoDetailTextView.setText("Öğrenci : " + activityTicketStudentPrice + " TL");
+                                binding.activityPriceInfoDetailTextView.setText("Tam : " + activityTicketAdultPrice + " TL\n" + "Öğrenci : " + activityTicketStudentPrice + " TL" );
+
 
                             } else if (activityTicketStudentPrice == 0 && activityTicketAdultPrice == 0) {
 
@@ -132,21 +181,18 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
                                 } else if  (activityTicketClass1Price != 0 && activityTicketClass2Price != 0  && activityTicketClass3Price == 0  && activityTicketClass4Price == 0) {
 
-                                    binding.activityPriceInfoDetailTextView.setText(activityTicketClass1Name + " : " + activityTicketClass1Price + " TL\n" );
-                                    binding.activityPriceInfoDetailTextView.setText(activityTicketClass2Name + " : " + activityTicketClass2Price + " TL\n" );
+                                    binding.activityPriceInfoDetailTextView.setText(activityTicketClass1Name + " : " + activityTicketClass1Price + " TL\n" + activityTicketClass2Name + " : " + activityTicketClass2Price + " TL\n"  );
+
 
                                 } else if  (activityTicketClass1Price != 0 && activityTicketClass2Price != 0  && activityTicketClass3Price != 0  && activityTicketClass4Price == 0) {
 
-                                    binding.activityPriceInfoDetailTextView.setText(activityTicketClass1Name + " : " + activityTicketClass1Price + " TL\n" );
-                                    binding.activityPriceInfoDetailTextView.setText(activityTicketClass2Name + " : " + activityTicketClass2Price + " TL\n" );
-                                    binding.activityPriceInfoDetailTextView.setText(activityTicketClass3Name + " : " + activityTicketClass3Price + " TL\n" );
+                                    binding.activityPriceInfoDetailTextView.setText(activityTicketClass1Name + " : " + activityTicketClass1Price + " TL\n" + activityTicketClass2Name + " : " + activityTicketClass2Price + " TL\n" + activityTicketClass3Name + " : " + activityTicketClass3Price + " TL\n" );
+
 
                                 } else if  (activityTicketClass1Price != 0 && activityTicketClass2Price != 0  && activityTicketClass3Price != 0  && activityTicketClass4Price != 0) {
 
-                                    binding.activityPriceInfoDetailTextView.setText(activityTicketClass1Name + " : " + activityTicketClass1Price + " TL\n" );
-                                    binding.activityPriceInfoDetailTextView.setText(activityTicketClass2Name + " : " + activityTicketClass2Price + " TL\n" );
-                                    binding.activityPriceInfoDetailTextView.setText(activityTicketClass3Name + " : " + activityTicketClass3Price + " TL\n" );
-                                    binding.activityPriceInfoDetailTextView.setText(activityTicketClass4Name + " : " + activityTicketClass4Price + " TL\n" );
+                                    binding.activityPriceInfoDetailTextView.setText(activityTicketClass1Name + " : " + activityTicketClass1Price + " TL\n" + activityTicketClass2Name + " : " + activityTicketClass2Price + " TL\n" + activityTicketClass3Name + " : " + activityTicketClass3Price + " TL\n"  + activityTicketClass4Name + " : " + activityTicketClass4Price + " TL\n" );
+
 
                                 }
 
@@ -160,11 +206,15 @@ public class ActivityDetailActivity extends AppCompatActivity {
                         binding.activityTitleTextView.setText(activitytitle);
                         binding.activityLocationTextView.setText(activityLocation);
                         binding.activityCategoryTextView.setText(activityCategory);
+
                         binding.activityDetailTitleTextView.setText(activityDetailTitle);
                         binding.activityDetailTextView.setText(activityDetail);
                         binding.activityOrganizationCompanyDetailTextView.setText(activityOrganization);
                         binding.activityAdressDescriptionDetailTextView.setText(activityLocationAdress);
                         binding.activityDetailPhoneNumberTextView.setText(activityTelephoneNumber);
+                        binding.activityAdressDescriptionDetailTextView.setText(activityLocationAdress);
+
+
 
 
 
@@ -191,6 +241,9 @@ public class ActivityDetailActivity extends AppCompatActivity {
                             binding.activiyDateDayTextview.setText(day);
 
 
+
+                            binding.secondMonthAndDayLinear.setVisibility(View.INVISIBLE);
+                            binding.secondMonthAndDayLinear.getLayoutParams().width = 0;
                             binding.activityDateBrace.setVisibility(View.INVISIBLE);
                             binding.activityDateBrace.getLayoutParams().width = 0;
                             binding.activitDateDayNumberTextView2.setVisibility(View.INVISIBLE);
