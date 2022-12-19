@@ -35,6 +35,19 @@ public class ActivityDetailActivity extends AppCompatActivity {
     Integer descriptionLayoutHeight;
     Integer locationLayoutHeihgt;
 
+    Boolean activityTicketFreeInfo;
+    Double activityTicketStudentPrice;
+    Double activityTicketAdultPrice;
+
+    Long activityTicketClass1Price;
+    String activityTicketClass1Name;
+    Long activityTicketClass2Price;
+    String activityTicketClass2Name;
+    Long activityTicketClass3Price;
+    String activityTicketClass3Name;
+    Long activityTicketClass4Price ;
+    String activityTicketClass4Name;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +65,109 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
         binding.activityButton.setText("Bilet Al");
 
-
+        binding.activityInfoLinearLayout.setVisibility(View.VISIBLE);
+        binding.descriptionLinearLayout.setVisibility(View.INVISIBLE);
+        binding.locationInfoLinearLayout.setVisibility(View.INVISIBLE);
 
 
 
 
         getActivityDetail();
+
+        binding.activityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (activityTicketFreeInfo == true) {
+
+                    Intent activityDetailToticketSelectIntent = new Intent(ActivityDetailActivity.this, TicketSelectActivity.class);
+                    activityDetailToticketSelectIntent.putExtra("TicketInfo", "FreeTicket");
+                    startActivity(activityDetailToticketSelectIntent);
+
+
+                } else {
+
+
+                    if (activityTicketStudentPrice == 0 && activityTicketAdultPrice != 0) {
+
+                        Intent activityDetailToticketSelectIntent = new Intent(ActivityDetailActivity.this, TicketSelectActivity.class);
+                        activityDetailToticketSelectIntent.putExtra("TicketInfo", "SingleTicket");
+                        startActivity(activityDetailToticketSelectIntent);
+
+
+                    } else if (activityTicketStudentPrice != 0 && activityTicketAdultPrice != 0) {
+
+                        Intent activityDetailToticketSelectIntent = new Intent(ActivityDetailActivity.this, TicketSelectActivity.class);
+                        activityDetailToticketSelectIntent.putExtra("TicketInfo", "AdultandStudentTicket");
+                        activityDetailToticketSelectIntent.putExtra("TicketAdultPrice", activityTicketAdultPrice);
+                        activityDetailToticketSelectIntent.putExtra("TicketStudentPrice",activityTicketStudentPrice);
+                        startActivity(activityDetailToticketSelectIntent);
+
+
+                    } else if (activityTicketStudentPrice == 0 && activityTicketAdultPrice == 0) {
+
+
+                        if (activityTicketClass1Price != 0 && activityTicketClass2Price == 0  && activityTicketClass3Price == 0  && activityTicketClass4Price == 0) {
+
+
+                            Intent activityDetailToticketSelectIntent = new Intent(ActivityDetailActivity.this, TicketSelectActivity.class);
+                            activityDetailToticketSelectIntent.putExtra("TicketInfo", "Class1Ticket");
+                            activityDetailToticketSelectIntent.putExtra("TicketName1", activityTicketClass1Name);
+                            activityDetailToticketSelectIntent.putExtra("TicketPrice1",activityTicketClass1Price);
+                            startActivity(activityDetailToticketSelectIntent);
+
+
+                        } else if  (activityTicketClass1Price != 0 && activityTicketClass2Price != 0  && activityTicketClass3Price == 0  && activityTicketClass4Price == 0) {
+
+                            Intent activityDetailToticketSelectIntent = new Intent(ActivityDetailActivity.this, TicketSelectActivity.class);
+                            activityDetailToticketSelectIntent.putExtra("TicketInfo", "Class2Ticket");
+                            activityDetailToticketSelectIntent.putExtra("TicketName1", activityTicketClass1Name);
+                            activityDetailToticketSelectIntent.putExtra("TicketPrice1",activityTicketClass1Price);
+                            activityDetailToticketSelectIntent.putExtra("TicketName2", activityTicketClass2Name);
+                            activityDetailToticketSelectIntent.putExtra("TicketPrice2",activityTicketClass2Price);
+                            startActivity(activityDetailToticketSelectIntent);
+
+
+                        } else if  (activityTicketClass1Price != 0 && activityTicketClass2Price != 0  && activityTicketClass3Price != 0  && activityTicketClass4Price == 0) {
+
+                            Intent activityDetailToticketSelectIntent = new Intent(ActivityDetailActivity.this, TicketSelectActivity.class);
+                            activityDetailToticketSelectIntent.putExtra("TicketInfo", "Class3Ticket");
+                            activityDetailToticketSelectIntent.putExtra("TicketName1", activityTicketClass1Name);
+                            activityDetailToticketSelectIntent.putExtra("TicketPrice1",activityTicketClass1Price);
+                            activityDetailToticketSelectIntent.putExtra("TicketName2", activityTicketClass2Name);
+                            activityDetailToticketSelectIntent.putExtra("TicketPrice2",activityTicketClass2Price);
+                            activityDetailToticketSelectIntent.putExtra("TicketName3", activityTicketClass3Name);
+                            activityDetailToticketSelectIntent.putExtra("TicketPrice3",activityTicketClass3Price);
+                            startActivity(activityDetailToticketSelectIntent);
+
+
+                        } else if  (activityTicketClass1Price != 0 && activityTicketClass2Price != 0  && activityTicketClass3Price != 0  && activityTicketClass4Price != 0) {
+
+                            Intent activityDetailToticketSelectIntent = new Intent(ActivityDetailActivity.this, TicketSelectActivity.class);
+                            activityDetailToticketSelectIntent.putExtra("TicketInfo", "Class4Ticket");
+                            activityDetailToticketSelectIntent.putExtra("TicketName1", activityTicketClass1Name);
+                            activityDetailToticketSelectIntent.putExtra("TicketPrice1",activityTicketClass1Price);
+                            activityDetailToticketSelectIntent.putExtra("TicketName2", activityTicketClass2Name);
+                            activityDetailToticketSelectIntent.putExtra("TicketPrice2",activityTicketClass2Price);
+                            activityDetailToticketSelectIntent.putExtra("TicketName3", activityTicketClass3Name);
+                            activityDetailToticketSelectIntent.putExtra("TicketPrice3",activityTicketClass3Price);
+                            activityDetailToticketSelectIntent.putExtra("TicketName4", activityTicketClass4Name);
+                            activityDetailToticketSelectIntent.putExtra("TicketPrice4",activityTicketClass4Price);
+                            startActivity(activityDetailToticketSelectIntent);
+
+                        }
+
+                    }
+
+                }
+
+
+
+
+            }
+        });
+
+
 
          binding.activityInfoButton.setOnClickListener(new View.OnClickListener() {
              @Override
@@ -106,8 +216,6 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
     public void getActivityDetail() {
 
-        System.out.println("did" + activityDocumentID);
-
         firebaseFirestore.collection("Events").document("AMrY2Kus3303A2hs8C6p").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -133,23 +241,18 @@ public class ActivityDetailActivity extends AppCompatActivity {
                         Double activityLocationLongitudeLong = (Double) document.get("activityLocationLongitude");
                         String activityTelephoneNumber = (String) document.get("activiactivityTelephoneNumberTitle");
 
-                        Boolean activityTicketFreeInfo = (Boolean)  document.get("activityTicketFreeInfo");
-                        Double activityTicketStudentPrice = (Double)  document.get("activityTicketStudentPrice");
-                        Double activityTicketAdultPrice = (Double)  document.get("activityTicketAdultPrice");
+                        activityTicketFreeInfo = (Boolean)  document.get("activityTicketFreeInfo");
+                        activityTicketStudentPrice = (Double)  document.get("activityTicketStudentPrice");
+                        activityTicketAdultPrice = (Double)  document.get("activityTicketAdultPrice");
 
-                        Long activityTicketClass1Price = (Long)  document.get("activityTicketClass1Price");
-                        String activityTicketClass1Name = (String)  document.get("activityTicketClass1Name");
-                        Long activityTicketClass2Price = (Long)  document.get("activityTicketClass2Price");
-                        String activityTicketClass2Name = (String)  document.get("activityTicketClass2Name");
-                        Long activityTicketClass3Price = (Long)  document.get("activityTicketClass3Price");
-                        String activityTicketClass3Name = (String)  document.get("activityTicketClass3Name");
-                        Long activityTicketClass4Price = (Long)  document.get("activityTicketClass4Price");
-                        String activityTicketClass4Name = (String)  document.get("activityTicketClass4Name");
-
-
-
-
-
+                        activityTicketClass1Price = (Long)  document.get("activityTicketClass1Price");
+                        activityTicketClass1Name = (String)  document.get("activityTicketClass1Name");
+                        activityTicketClass2Price = (Long)  document.get("activityTicketClass2Price");
+                        activityTicketClass2Name = (String)  document.get("activityTicketClass2Name");
+                        activityTicketClass3Price = (Long)  document.get("activityTicketClass3Price");
+                        activityTicketClass3Name = (String)  document.get("activityTicketClass3Name");
+                        activityTicketClass4Price = (Long)  document.get("activityTicketClass4Price");
+                        activityTicketClass4Name = (String)  document.get("activityTicketClass4Name");
 
 
                         if (activityTicketFreeInfo == true) {
