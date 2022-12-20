@@ -124,6 +124,17 @@ public class TicketSelectActivity extends AppCompatActivity {
 
         }
 
+        binding.selectAndContinueButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                Intent ticketToSeatIntent = new Intent(TicketSelectActivity.this, SeatSelectActivity.class);
+                startActivity(ticketToSeatIntent);
+
+            }
+        });
+
 
         binding.ticketselect1AddPositiveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,11 +161,11 @@ public class TicketSelectActivity extends AppCompatActivity {
 
 
 
-                }  else if (ticketInfo.equals("Class3Ticket")) {
+                } else if (ticketInfo.equals("Class3Ticket")) {
 
 
 
-                }   else if (ticketInfo.equals("Class4Ticket")) {
+                } else if (ticketInfo.equals("Class4Ticket")) {
 
 
                 }

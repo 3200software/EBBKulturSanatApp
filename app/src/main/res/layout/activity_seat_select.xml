@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.SeatSelectActivity">
+
+
+    <LinearLayout
+        android:id="@+id/seatLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp">
+
+            <Button
+                android:id="@+id/seatB1"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatB2"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatB3"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatB4"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatB5"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatB6"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatB7"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatB8"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatB9"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatB10"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+
+            <Button
+                android:id="@+id/seatB11"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatB12"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatB13"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatB14"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatB15"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatB16"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatB17"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatB18"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatB19"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatB20"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatB21"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatB22"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+
+            <Button
+                android:id="@+id/seatB23"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+
+            <Button
+                android:id="@+id/seatB24"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/seatA1"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatA2"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatA3"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatA4"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatA5"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatA6"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatA7"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatA8"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatA9"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatA10"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+
+            <Button
+                android:id="@+id/seatA11"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatA12"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatA13"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatA14"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatA15"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatA16"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatA17"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatA18"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatA19"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatA20"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatA21"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+            <Button
+                android:id="@+id/seatA22"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+
+            <Button
+                android:id="@+id/seatA23"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+
+            <Button
+                android:id="@+id/seatA24"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/teal_200"></Button>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
