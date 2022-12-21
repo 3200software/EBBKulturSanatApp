@@ -51,14 +51,7 @@ public class SeatSelectActivity extends AppCompatActivity {
 
         mScaleGestureDetector = new ScaleGestureDetector(this,new ScaleListener());
 
-        binding.seatB15.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                binding.seatB15.setBackgroundColor(Color.BLACK);
-
-            }
-        });
 
 
         binding.seatLayout.setOnTouchListener(new View.OnTouchListener() {
