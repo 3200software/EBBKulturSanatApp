@@ -1,19 +1,43 @@
 package com.software3200.ebbkultursanatapp.Activity;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.Toast;
 
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.software3200.ebbkultursanatapp.Adapter.AdapterHomeBanner;
+import com.software3200.ebbkultursanatapp.Adapter.AdapterSeatSelect;
+import com.software3200.ebbkultursanatapp.Model.ModelHomeBanner;
+import com.software3200.ebbkultursanatapp.Model.ModelSeatSelect;
 import com.software3200.ebbkultursanatapp.R;
 import com.software3200.ebbkultursanatapp.databinding.ActivitySeatSelectBinding;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 public class SeatSelectActivity extends AppCompatActivity {
 
     ActivitySeatSelectBinding binding;
+
+    ArrayList<ModelSeatSelect> modelSeatSelectArrayList;
+    AdapterSeatSelect adapterSeatSelect;
+
+    FirebaseFirestore firebaseFirestore;
+
 
     private ScaleGestureDetector mScaleGestureDetector;
     private float mscaleFactor = 1.0f;
@@ -31,8 +55,7 @@ public class SeatSelectActivity extends AppCompatActivity {
 
            mscaleFactor *= scaleGestureDetector.getScaleFactor();
            mscaleFactor = Math.max(1.0f, Math.min(mscaleFactor,4.0f));
-           binding.seatLayout.setScaleX(mscaleFactor);
-           binding.seatLayout.setScaleY(mscaleFactor);
+
 
            return true;
 
@@ -48,13 +71,23 @@ public class SeatSelectActivity extends AppCompatActivity {
         binding = ActivitySeatSelectBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
+        modelSeatSelectArrayList = new ArrayList<>();
+        getSeatInfo();
+
+        RecyclerView.LayoutManager linearLayoutHomeBanner = new GridLayoutManager(this, 24);
+        binding.seatSelectRecyclerview.setLayoutManager(linearLayoutHomeBanner);
+        adapterSeatSelect = new AdapterSeatSelect(modelSeatSelectArrayList);
+        binding.seatSelectRecyclerview.setAdapter(adapterSeatSelect);
+
 
         mScaleGestureDetector = new ScaleGestureDetector(this,new ScaleListener());
 
 
 
 
-        binding.seatLayout.setOnTouchListener(new View.OnTouchListener() {
+        binding.seatSelectRecyclerview.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
 
@@ -80,8 +113,8 @@ public class SeatSelectActivity extends AppCompatActivity {
                         float distanceX = movedX - xDown;
                         float distanceY = movedY - yDown;
 
-                        binding.seatLayout.setX(binding.seatLayout.getX() + distanceX);
-                        binding.seatLayout.setY(binding.seatLayout.getY() + distanceY);
+                        binding.seatSelectRecyclerview.setX(binding.seatSelectRecyclerview.getX() + distanceX);
+                        binding.seatSelectRecyclerview.setY(binding.seatSelectRecyclerview.getY() + distanceY);
 
                         xDown = movedX;
                         yDown = movedY;
@@ -110,5 +143,58 @@ public class SeatSelectActivity extends AppCompatActivity {
         return true;
 
     }
+
+
+    public void getSeatInfo() {
+
+
+        firebaseFirestore.collection("Events").document("AMrY2Kus3303A2hs8C6p").collection("Saloon").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                if (error != null) {
+
+
+                    Toast.makeText(SeatSelectActivity.this,"İnternet bağlantısında bir problem var. Lütfen bağlantınız kontrol edin.",Toast.LENGTH_LONG).show();
+
+                }
+
+
+                if (value != null) {
+
+
+                    for (DocumentSnapshot snapshot : value.getDocuments()) {
+
+                        System.out.println(snapshot.getData());
+
+                        Map<String, Object> data = snapshot.getData();
+
+                        String seatName = (String) data.get("seatName");
+                        String seatStatus = (String) data.get("seatStatus");
+                        String seatOwnerTcNumber = (String) data.get("seatOwnerTcNumber");
+
+
+
+                        ModelSeatSelect modelSeatSelect = new ModelSeatSelect(seatName,seatStatus,seatOwnerTcNumber);
+                        modelSeatSelectArrayList.add(modelSeatSelect);
+
+                    }
+
+                    adapterSeatSelect.notifyDataSetChanged();
+
+                }
+
+
+
+
+            }
+        });
+
+
+
+
+    }
+
+
 
 }

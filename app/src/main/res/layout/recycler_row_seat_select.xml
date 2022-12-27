@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/seatSelectButton"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_margin="2dp"
+        android:text="A29"></Button>
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
