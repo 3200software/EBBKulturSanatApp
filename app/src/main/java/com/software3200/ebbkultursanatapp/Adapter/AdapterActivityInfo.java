@@ -36,18 +36,21 @@ public class AdapterActivityInfo extends RecyclerView.Adapter<AdapterActivityInf
     @Override
     public void onBindViewHolder(@NonNull ActivityInfoHolder holder, int position) {
 
-        Picasso.get().load(modelActivityInfoArrayList.get(position).activityImgUrl).into(holder.recyclerRowActivityBinding.activityImageView);
-        holder.recyclerRowActivityBinding.actvityTitleTextView.setText(modelActivityInfoArrayList.get(position).activityTitle);
+        Picasso.get().load(modelActivityInfoArrayList.get(position).activityImgUrl2).into(holder.recyclerRowActivityBinding.activityImageView);
+        holder.recyclerRowActivityBinding.actvityTitleTextView.setText(modelActivityInfoArrayList.get(position).activityName);
         holder.recyclerRowActivityBinding.activityLocationTextView.setText(modelActivityInfoArrayList.get(position).activityLocation);
         holder.recyclerRowActivityBinding.activityCategoryTextView.setText(modelActivityInfoArrayList.get(position).activityCategory);
 
 
 
 
-        if (modelActivityInfoArrayList.get(position).activityEndDate == null) {
+        if (modelActivityInfoArrayList.get(position).activityEndDate.getSeconds() == 0) {
+
+
+            Date actDate = modelActivityInfoArrayList.get(position).activityDate.toDate();
 
             Calendar cal = Calendar.getInstance();
-            cal.setTime(modelActivityInfoArrayList.get(position).activityDate);
+            cal.setTime(actDate);
 
 
             int dayInt = cal.get(Calendar.DAY_OF_MONTH);
@@ -72,9 +75,10 @@ public class AdapterActivityInfo extends RecyclerView.Adapter<AdapterActivityInf
 
         } else {
 
+            Date beginDate = modelActivityInfoArrayList.get(position).activityBeginDate.toDate();
 
             Calendar beginCal = Calendar.getInstance();
-            beginCal.setTime(modelActivityInfoArrayList.get(position).activityBeginDate);
+            beginCal.setTime(beginDate);
 
             int dayInt = beginCal.get(Calendar.DAY_OF_MONTH);
             String month = new SimpleDateFormat("MMM").format(beginCal.getTime());
@@ -85,8 +89,10 @@ public class AdapterActivityInfo extends RecyclerView.Adapter<AdapterActivityInf
             holder.recyclerRowActivityBinding.activityDateMonthTextView.setText(month);
             holder.recyclerRowActivityBinding.activiyDateDayTextview.setText(day);
 
+            Date endDate = modelActivityInfoArrayList.get(position).activityEndDate.toDate();
+
             Calendar endCal = Calendar.getInstance();
-            endCal.setTime(modelActivityInfoArrayList.get(position).activityEndDate);
+            endCal.setTime(endDate);
 
             int dayIntend = endCal.get(Calendar.DAY_OF_MONTH);
             String monthend = new SimpleDateFormat("MMM").format(endCal.getTime());
@@ -98,9 +104,8 @@ public class AdapterActivityInfo extends RecyclerView.Adapter<AdapterActivityInf
             holder.recyclerRowActivityBinding.activiyDateDayTextview2.setText(dayend);
 
 
-
-
         }
+
 
 
 

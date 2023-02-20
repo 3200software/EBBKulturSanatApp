@@ -71,24 +71,18 @@ public class HomeFragment extends Fragment {
                     if (error != null) {
 
 
-                        Toast.makeText(requireActivity(),"İnternet bağlantısında bir problem var. Lütfen bağlantınız kontrol edin.",Toast.LENGTH_LONG).show();
+                        Toast.makeText(requireActivity(),"İnternet bağlantısında bir problem var.asdasdasdas",Toast.LENGTH_LONG).show();
 
                     }
 
 
                     if (value != null) {
 
-                        System.out.println("hoop" );
-
-                        System.out.println(value);
-
-                        System.out.println(value.getDocuments());
-
-
+                        modelHomeBannerArrayList.clear();
 
                         for (DocumentSnapshot snapshot : value.getDocuments()) {
 
-                            System.out.println(snapshot.getData());
+
 
                               Map<String, Object> data = snapshot.getData();
 
@@ -96,10 +90,8 @@ public class HomeFragment extends Fragment {
                               String activityCategoryName = (String) data.get("activityCategoryName");
                               String activityDocumentId = (String) data.get("activityDocumentId");
 
-                             System.out.println(activityImgUrl );
-
-                             ModelHomeBanner modelHomeBanner = new ModelHomeBanner(activityImgUrl,activityCategoryName,activityDocumentId);
-                             modelHomeBannerArrayList.add(modelHomeBanner);
+                              ModelHomeBanner modelHomeBanner = new ModelHomeBanner(activityImgUrl,activityCategoryName,activityDocumentId);
+                              modelHomeBannerArrayList.add(modelHomeBanner);
 
                          }
 

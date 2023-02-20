@@ -35,10 +35,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
     Integer descriptionLayoutHeight;
     Integer locationLayoutHeihgt;
 
-    Boolean activityTicketFreeInfo;
-    Double activityTicketStudentPrice;
-    Double activityTicketAdultPrice;
-
+    String activityTicketInfo;
     Long activityTicketClass1Price;
     String activityTicketClass1Name;
     Long activityTicketClass2Price;
@@ -63,6 +60,8 @@ public class ActivityDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         activityDocumentID = intent.getStringExtra("ActivityDocumentId");
 
+        System.out.println("DocumentID" + activityDocumentID);
+
         binding.activityButton.setText("Bilet Al");
 
         binding.activityInfoLinearLayout.setVisibility(View.VISIBLE);
@@ -78,36 +77,39 @@ public class ActivityDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (activityTicketFreeInfo == true) {
+                System.out.println(activityTicketInfo);
 
+                if (activityTicketInfo.equals("1")) {
+
+                    System.out.println(activityTicketInfo);
                     Intent activityDetailToticketSelectIntent = new Intent(ActivityDetailActivity.this, TicketSelectActivity.class);
                     activityDetailToticketSelectIntent.putExtra("TicketInfo", "FreeTicket");
                     startActivity(activityDetailToticketSelectIntent);
 
 
-                } else {
+                } else if (activityTicketInfo.equals("2")) {
 
 
-                    if (activityTicketStudentPrice == 0 && activityTicketAdultPrice != 0) {
+
 
                         Intent activityDetailToticketSelectIntent = new Intent(ActivityDetailActivity.this, TicketSelectActivity.class);
                         activityDetailToticketSelectIntent.putExtra("TicketInfo", "SingleTicket");
                         startActivity(activityDetailToticketSelectIntent);
 
 
-                    } else if (activityTicketStudentPrice != 0 && activityTicketAdultPrice != 0) {
+                } else if (activityTicketInfo.equals("3")) {
 
                         Intent activityDetailToticketSelectIntent = new Intent(ActivityDetailActivity.this, TicketSelectActivity.class);
                         activityDetailToticketSelectIntent.putExtra("TicketInfo", "AdultandStudentTicket");
-                        activityDetailToticketSelectIntent.putExtra("TicketAdultPrice", activityTicketAdultPrice);
-                        activityDetailToticketSelectIntent.putExtra("TicketStudentPrice",activityTicketStudentPrice);
+                        activityDetailToticketSelectIntent.putExtra("TicketAdultPrice", activityTicketClass1Price);
+                        activityDetailToticketSelectIntent.putExtra("TicketStudentPrice",activityTicketClass2Price);
                         startActivity(activityDetailToticketSelectIntent);
 
 
-                    } else if (activityTicketStudentPrice == 0 && activityTicketAdultPrice == 0) {
+                } else if (activityTicketInfo.equals("4")) {
 
 
-                        if (activityTicketClass1Price != 0 && activityTicketClass2Price == 0  && activityTicketClass3Price == 0  && activityTicketClass4Price == 0) {
+
 
 
                             Intent activityDetailToticketSelectIntent = new Intent(ActivityDetailActivity.this, TicketSelectActivity.class);
@@ -117,7 +119,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
                             startActivity(activityDetailToticketSelectIntent);
 
 
-                        } else if  (activityTicketClass1Price != 0 && activityTicketClass2Price != 0  && activityTicketClass3Price == 0  && activityTicketClass4Price == 0) {
+                } else if  (activityTicketInfo.equals("5")) {
 
                             Intent activityDetailToticketSelectIntent = new Intent(ActivityDetailActivity.this, TicketSelectActivity.class);
                             activityDetailToticketSelectIntent.putExtra("TicketInfo", "Class2Ticket");
@@ -128,7 +130,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
                             startActivity(activityDetailToticketSelectIntent);
 
 
-                        } else if  (activityTicketClass1Price != 0 && activityTicketClass2Price != 0  && activityTicketClass3Price != 0  && activityTicketClass4Price == 0) {
+                } else if  (activityTicketInfo.equals("6")) {
 
                             Intent activityDetailToticketSelectIntent = new Intent(ActivityDetailActivity.this, TicketSelectActivity.class);
                             activityDetailToticketSelectIntent.putExtra("TicketInfo", "Class3Ticket");
@@ -141,7 +143,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
                             startActivity(activityDetailToticketSelectIntent);
 
 
-                        } else if  (activityTicketClass1Price != 0 && activityTicketClass2Price != 0  && activityTicketClass3Price != 0  && activityTicketClass4Price != 0) {
+                } else if  (activityTicketInfo.equals("7")) {
 
                             Intent activityDetailToticketSelectIntent = new Intent(ActivityDetailActivity.this, TicketSelectActivity.class);
                             activityDetailToticketSelectIntent.putExtra("TicketInfo", "Class4Ticket");
@@ -155,14 +157,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
                             activityDetailToticketSelectIntent.putExtra("TicketPrice4",activityTicketClass4Price);
                             startActivity(activityDetailToticketSelectIntent);
 
-                        }
-
-                    }
-
                 }
-
-
-
 
             }
         });
@@ -216,7 +211,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
     public void getActivityDetail() {
 
-        firebaseFirestore.collection("Events").document("AMrY2Kus3303A2hs8C6p").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        firebaseFirestore.collection("Events").document(activityDocumentID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
@@ -225,26 +220,29 @@ public class ActivityDetailActivity extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
 
-                        String activityImgUrl = (String) document.get("activityImgUrl");
-                        String activitytitle = (String) document.get("activityTitle");
-                        String activityDetail = (String) document.get("activityDetail");
-                        String activityDetailTitle = (String) document.get("activityDetailTitle");
+                        String activityName = (String) document.get("activityName");
                         String activityCategory = (String) document.get("activityCategory");
-                        String activityOrganization = (String) document.get("activityOrganization");
+                        String activityLocation = (String) document.get("activityLocation");
+
                         Timestamp activityDateTimestamp = (Timestamp) document.get("activityDate");
                         Timestamp activityBeginDateTimeStamp = (Timestamp) document.get("activityBeginDate");
                         Timestamp activityEndDateTimestamp = (Timestamp) document.get("activityEndDate");
+                        String activityDescription = (String) document.get("activityDescription");
 
-                        String activityLocation = (String) document.get("activityLocation");
-                        String activityLocationAdress = (String) document.get("activityLocationAdressDetail");
-                        Double activityLocationLatitudeLong = (Double) document.get("activityLocationLatitude");
-                        Double activityLocationLongitudeLong = (Double) document.get("activityLocationLongitude");
-                        String activityTelephoneNumber = (String) document.get("activiactivityTelephoneNumberTitle");
+                        String activityImgUrl1 = (String) document.get("activityImgUrl1");
+                        String activityImgUrl2 = (String) document.get("activityImgUrl2");
 
-                        activityTicketFreeInfo = (Boolean)  document.get("activityTicketFreeInfo");
-                        activityTicketStudentPrice = (Double)  document.get("activityTicketStudentPrice");
-                        activityTicketAdultPrice = (Double)  document.get("activityTicketAdultPrice");
+                        String activityLocationAdressDetail = (String) document.get("activityLocationAdressDetail");
+                        Double activityLocationLatitude = (Double) document.get("activityLocationLatitude");
+                        Double activityLocationLongitude = (Double) document.get("activityLocationLongitude");
 
+                        String activityOrganization = (String) document.get("activityOrganization");
+                        String activityTelephoneNumber = (String) document.get("activityTelephoneNumber");
+
+
+
+
+                        activityTicketInfo = (String)  document.get("activityTicketInfo");
                         activityTicketClass1Price = (Long)  document.get("activityTicketClass1Price");
                         activityTicketClass1Name = (String)  document.get("activityTicketClass1Name");
                         activityTicketClass2Price = (Long)  document.get("activityTicketClass2Price");
@@ -255,80 +253,60 @@ public class ActivityDetailActivity extends AppCompatActivity {
                         activityTicketClass4Name = (String)  document.get("activityTicketClass4Name");
 
 
-                        if (activityTicketFreeInfo == true) {
+                        if (activityTicketInfo.equals("1")) {
 
                             binding.activityPriceInfoDetailTextView.setText("Ücretsiz");
 
 
-                        } else {
+                        } else if (activityTicketInfo.equals("2")) {
+
+                            binding.activityPriceInfoDetailTextView.setText(activityTicketClass1Price + " TL");
 
 
-                            if (activityTicketStudentPrice == 0 && activityTicketAdultPrice != 0) {
-
-                                binding.activityPriceInfoDetailTextView.setText(activityTicketAdultPrice + " TL");
+                        } else if (activityTicketInfo.equals("3"))    {
 
 
-                            } else if (activityTicketStudentPrice != 0 && activityTicketAdultPrice != 0) {
+                            binding.activityPriceInfoDetailTextView.setText(activityTicketClass1Name + " : " + activityTicketClass1Price + " TL\n" + activityTicketClass2Name + " : " + activityTicketClass2Price + " TL" );
 
-                                binding.activityPriceInfoDetailTextView.setText("Tam : " + activityTicketAdultPrice + " TL\n" + "Öğrenci : " + activityTicketStudentPrice + " TL" );
-
-
-                            } else if (activityTicketStudentPrice == 0 && activityTicketAdultPrice == 0) {
+                            } else if (activityTicketInfo.equals("4")) {
 
 
-                                if (activityTicketClass1Price != 0 && activityTicketClass2Price == 0  && activityTicketClass3Price == 0  && activityTicketClass4Price == 0) {
+                            binding.activityPriceInfoDetailTextView.setText(activityTicketClass1Name + " : " + activityTicketClass1Price + " TL\n" );
 
 
-                                    binding.activityPriceInfoDetailTextView.setText(activityTicketClass1Name + " : " + activityTicketClass1Price + " TL\n" );
+                        } else if (activityTicketInfo.equals("5")) {
+
+                            binding.activityPriceInfoDetailTextView.setText(activityTicketClass1Name + " : " + activityTicketClass1Price + " TL\n" + activityTicketClass2Name + " : " + activityTicketClass2Price + " TL\n");
 
 
-                                } else if  (activityTicketClass1Price != 0 && activityTicketClass2Price != 0  && activityTicketClass3Price == 0  && activityTicketClass4Price == 0) {
-
-                                    binding.activityPriceInfoDetailTextView.setText(activityTicketClass1Name + " : " + activityTicketClass1Price + " TL\n" + activityTicketClass2Name + " : " + activityTicketClass2Price + " TL\n"  );
+                        } else if (activityTicketInfo.equals("6")) {
 
 
-                                } else if  (activityTicketClass1Price != 0 && activityTicketClass2Price != 0  && activityTicketClass3Price != 0  && activityTicketClass4Price == 0) {
-
-                                    binding.activityPriceInfoDetailTextView.setText(activityTicketClass1Name + " : " + activityTicketClass1Price + " TL\n" + activityTicketClass2Name + " : " + activityTicketClass2Price + " TL\n" + activityTicketClass3Name + " : " + activityTicketClass3Price + " TL\n" );
+                            binding.activityPriceInfoDetailTextView.setText(activityTicketClass1Name + " : " + activityTicketClass1Price + " TL\n" + activityTicketClass2Name + " : " + activityTicketClass2Price + " TL\n" + activityTicketClass3Name + " : " + activityTicketClass3Price + " TL\n" );
 
 
-                                } else if  (activityTicketClass1Price != 0 && activityTicketClass2Price != 0  && activityTicketClass3Price != 0  && activityTicketClass4Price != 0) {
-
-                                    binding.activityPriceInfoDetailTextView.setText(activityTicketClass1Name + " : " + activityTicketClass1Price + " TL\n" + activityTicketClass2Name + " : " + activityTicketClass2Price + " TL\n" + activityTicketClass3Name + " : " + activityTicketClass3Price + " TL\n"  + activityTicketClass4Name + " : " + activityTicketClass4Price + " TL\n" );
+                        } else if (activityTicketInfo.equals("7")) {
 
 
-                                }
-
-                            }
+                            binding.activityPriceInfoDetailTextView.setText(activityTicketClass1Name + " : " + activityTicketClass1Price + " TL\n" + activityTicketClass2Name + " : " + activityTicketClass2Price + " TL\n" + activityTicketClass3Name + " : " + activityTicketClass3Price + " TL\n"  + activityTicketClass4Name + " : " + activityTicketClass4Price + " TL\n" );
 
                         }
 
 
-
-                        Picasso.get().load(activityImgUrl).into(binding.activityImageView);
-                        binding.activityTitleTextView.setText(activitytitle);
+                        Picasso.get().load(activityImgUrl2).into(binding.activityImageView);
+                        binding.activityTitleTextView.setText(activityName);
                         binding.activityLocationTextView.setText(activityLocation);
                         binding.activityCategoryTextView.setText(activityCategory);
 
-                        binding.activityDetailTitleTextView.setText(activityDetailTitle);
-                        binding.activityDetailTextView.setText(activityDetail);
+                        binding.activityDetailTextView.setText(activityDescription);
                         binding.activityOrganizationCompanyDetailTextView.setText(activityOrganization);
-                        binding.activityAdressDescriptionDetailTextView.setText(activityLocationAdress);
+                        binding.activityAdressDescriptionDetailTextView.setText(activityLocationAdressDetail);
                         binding.activityDetailPhoneNumberTextView.setText(activityTelephoneNumber);
-                        binding.activityAdressDescriptionDetailTextView.setText(activityLocationAdress);
 
 
-
-
-
-
-
-
-                        if (activityEndDateTimestamp.getSeconds() < 1262296800) {
+                        if (activityEndDateTimestamp.getSeconds() > 1262296800) {
 
                             Date activityDate = activityDateTimestamp.toDate();
-
-                            System.out.println("date" + activityDate);
 
                             Calendar cal = Calendar.getInstance();
                             cal.setTime(activityDate);
@@ -364,12 +342,12 @@ public class ActivityDetailActivity extends AppCompatActivity {
                             Calendar beginCal = Calendar.getInstance();
                             beginCal.setTime(activityBeginDate);
 
-                            int dayInt = beginCal.get(Calendar.DAY_OF_MONTH);
+                            int dayIntBegin = beginCal.get(Calendar.DAY_OF_MONTH);
                             String month = new SimpleDateFormat("MMM").format(beginCal.getTime());
                             String day = new SimpleDateFormat("EEEE").format(beginCal.getTime());
                             String time = new SimpleDateFormat("HH:mm").format(beginCal.getTime());
 
-                            binding.activitDateDayNumberTextView.setText(dayInt);
+                            binding.activitDateDayNumberTextView.setText(dayIntBegin);
                             binding.activityDateMonthTextView.setText(month);
                             binding.activiyDateDayTextview.setText(day);
 
