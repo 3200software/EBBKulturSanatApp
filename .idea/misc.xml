@@ -12,6 +12,13 @@
         <entry key="..\:/Users/Pc/Desktop/SanatApp/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.195" />
         <entry key="..\:/Users/Pc/Desktop/SanatApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.195" />
         <entry key="..\:/Users/Pc/Desktop/SanatApp/app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.195" />
+        <entry key="..\:/Users/Pc/Desktop/SanatApp/app/src/main/res/drawable/seat_another_basket.xml" value="0.3665" />
+        <entry key="..\:/Users/Pc/Desktop/SanatApp/app/src/main/res/drawable/seat_border_back.xml" value="0.321" />
+        <entry key="..\:/Users/Pc/Desktop/SanatApp/app/src/main/res/drawable/seat_border_back_empty.xml" value="0.225" />
+        <entry key="..\:/Users/Pc/Desktop/SanatApp/app/src/main/res/drawable/seat_disabled_human.xml" value="0.3665" />
+        <entry key="..\:/Users/Pc/Desktop/SanatApp/app/src/main/res/drawable/seat_full_.xml" value="0.3665" />
+        <entry key="..\:/Users/Pc/Desktop/SanatApp/app/src/main/res/drawable/seat_protocol_.xml" value="0.3665" />
+        <entry key="..\:/Users/Pc/Desktop/SanatApp/app/src/main/res/drawable/seat_select_.xml" value="0.3665" />
         <entry key="..\:/Users/Pc/Desktop/SanatApp/app/src/main/res/layout/activity_detail.xml" value="0.33" />
         <entry key="..\:/Users/Pc/Desktop/SanatApp/app/src/main/res/layout/activity_main.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/Pc/Desktop/SanatApp/app/src/main/res/layout/activity_seat_select.xml" value="0.33" />
@@ -21,7 +28,7 @@
         <entry key="..\:/Users/Pc/Desktop/SanatApp/app/src/main/res/layout/fragment_home.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/Pc/Desktop/SanatApp/app/src/main/res/layout/recycler_row_activity.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/Pc/Desktop/SanatApp/app/src/main/res/layout/recycler_row_main_banner.xml" value="0.18802083333333333" />
-        <entry key="..\:/Users/Pc/Desktop/SanatApp/app/src/main/res/layout/recycler_row_seat_select.xml" value="0.9" />
+        <entry key="..\:/Users/Pc/Desktop/SanatApp/app/src/main/res/layout/recycler_row_seat_select.xml" value="0.75" />
         <entry key="..\:/Users/alone/Desktop/EbbKulturSanat/app/src/main/res/layout/activity_detail.xml" value="0.33" />
         <entry key="..\:/Users/alone/Desktop/EbbKulturSanat/app/src/main/res/layout/fragment_home.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/alone/Desktop/EbbKulturSanat/app/src/main/res/layout/recycler_row_activity.xml" value="0.25" />

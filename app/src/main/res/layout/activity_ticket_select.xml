@@ -43,7 +43,7 @@
 
 
         <Button
-            android:id="@+id/ticketselect1AddPositiveButton"
+            android:id="@+id/ticketSelect1NegativeButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:text="-"
@@ -77,7 +77,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/ticketSelect1NegativeButton"
+            android:id="@+id/ticketselect1AddPositiveButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:text="+"
@@ -120,7 +120,7 @@
 
 
             <Button
-                android:id="@+id/ticketselect2AddPositiveButton"
+                android:id="@+id/ticketSelect2NegativeButton"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:text="-"
@@ -156,7 +156,7 @@
 
 
             <Button
-                android:id="@+id/ticketSelect2NegativeButton"
+                android:id="@+id/ticketselect2AddPositiveButton"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:text="+"
@@ -198,7 +198,7 @@
 
 
             <Button
-                android:id="@+id/ticketselect3AddPositiveButton"
+                android:id="@+id/ticketSelect3NegativeButton"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:text="-"
@@ -234,7 +234,7 @@
 
 
             <Button
-                android:id="@+id/ticketSelect3NegativeButton"
+                android:id="@+id/ticketselect3AddPositiveButton"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:text="+"
@@ -276,7 +276,7 @@
 
 
             <Button
-                android:id="@+id/ticketselect4AddPositiveButton"
+                android:id="@+id/ticketSelect4NegativeButton"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:text="-"
@@ -312,7 +312,7 @@
 
 
             <Button
-                android:id="@+id/ticketSelect4NegativeButton"
+                android:id="@+id/ticketselect4AddPositiveButton"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:text="+"
@@ -345,9 +345,10 @@
                 >
 
                 <TextView
+                    android:id="@+id/ticketPriceTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Fiyat"
+                    android:text="00.00 TL"
                     android:textSize="25dp"
                     android:textStyle="bold"
                     android:layout_gravity="center"

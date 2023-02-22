@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -14,13 +15,16 @@ import android.view.View;
 import android.widget.Adapter;
 import android.widget.Toast;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.software3200.ebbkultursanatapp.Adapter.AdapterHomeBanner;
 import com.software3200.ebbkultursanatapp.Adapter.AdapterSeatSelect;
+import com.software3200.ebbkultursanatapp.JavaModel.SeatDocumentIdModel;
 import com.software3200.ebbkultursanatapp.Model.ModelHomeBanner;
 import com.software3200.ebbkultursanatapp.Model.ModelSeatSelect;
 import com.software3200.ebbkultursanatapp.R;
@@ -38,30 +42,17 @@ public class SeatSelectActivity extends AppCompatActivity {
 
     FirebaseFirestore firebaseFirestore;
 
+    String activityDocumentID;
+
 
     private ScaleGestureDetector mScaleGestureDetector;
     private float mscaleFactor = 1.0f;
 
-    float xDown = 150 , yDown = 150;
 
 
 
-    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
-
-       @Override
-
-        public boolean onScale(ScaleGestureDetector scaleGestureDetector) {
 
 
-           mscaleFactor *= scaleGestureDetector.getScaleFactor();
-           mscaleFactor = Math.max(1.0f, Math.min(mscaleFactor,4.0f));
-
-
-           return true;
-
-       }
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,10 +64,13 @@ public class SeatSelectActivity extends AppCompatActivity {
 
         firebaseFirestore = FirebaseFirestore.getInstance();
 
+        Intent activityTicketSelectToSeatSelectIntent = getIntent();
+        activityDocumentID = activityTicketSelectToSeatSelectIntent.getStringExtra("ActivityDocumentId");
+
         modelSeatSelectArrayList = new ArrayList<>();
         getSeatInfo();
 
-        RecyclerView.LayoutManager linearLayoutHomeBanner = new GridLayoutManager(this, 24);
+        RecyclerView.LayoutManager linearLayoutHomeBanner = new GridLayoutManager(this, 29);
         binding.seatSelectRecyclerview.setLayoutManager(linearLayoutHomeBanner);
         adapterSeatSelect = new AdapterSeatSelect(modelSeatSelectArrayList);
         binding.seatSelectRecyclerview.setAdapter(adapterSeatSelect);
@@ -87,68 +81,113 @@ public class SeatSelectActivity extends AppCompatActivity {
 
 
 
-        binding.seatSelectRecyclerview.setOnTouchListener(new View.OnTouchListener() {
+      /* binding.seatSelectRecyclerview.setOnTouchListener(new View.OnTouchListener() {
+
+           float x,y;
+           float dx, dy;
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
+            public boolean onTouch(View view, MotionEvent event) {
 
 
-
-                switch (motionEvent.getActionMasked()) {
-
-                    case MotionEvent.ACTION_DOWN:
-
-                        xDown = motionEvent.getX();
-                        yDown = motionEvent.getY();
-
-                        break;
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
 
-                    case MotionEvent.ACTION_MOVE:
-
-                        float movedX, movedY;
-
-                        movedX = motionEvent.getX();
-                        movedY = motionEvent.getY();
-
-                        float distanceX = movedX - xDown;
-                        float distanceY = movedY - yDown;
-
-                        binding.seatSelectRecyclerview.setX(binding.seatSelectRecyclerview.getX() + distanceX);
-                        binding.seatSelectRecyclerview.setY(binding.seatSelectRecyclerview.getY() + distanceY);
-
-                        xDown = movedX;
-                        yDown = movedY;
-
-
-                        break;
-
-
+                    x = event.getX();
+                    y = event.getY();
 
                 }
 
-                return true;
+                if(event.getAction() == MotionEvent.ACTION_MOVE) {
+
+                    dx = event.getX() - x;
+                    dy = event.getY() - y;
+
+                    binding.seatSelectRecyclerview.setX(binding.seatSelectRecyclerview.getX() + dx);
+                    binding.seatSelectRecyclerview.setY(binding.seatSelectRecyclerview.getY() + dy);
+
+                    x = event.getX();
+                    y = event.getY();
+
+                }
+
+
+                mScaleGestureDetector.onTouchEvent(event);
+
+                return false;
             }
         });
 
 
+
+       */
+
+
     }
 
-    public boolean onTouchEvent(MotionEvent motionEvent) {
-
-        mScaleGestureDetector.onTouchEvent(motionEvent);
 
 
+    float x,y;
+    float dx, dy;
 
 
-        return true;
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+
+
+            x = event.getX();
+            y = event.getY();
+
+        }
+
+        if(event.getAction() == MotionEvent.ACTION_MOVE) {
+
+            dx = event.getX() - x;
+            dy = event.getY() - y;
+
+            binding.seatSelectRecyclerview.setX(binding.seatSelectRecyclerview.getX() + dx);
+            binding.seatSelectRecyclerview.setY(binding.seatSelectRecyclerview.getY() + dy);
+
+            x = event.getX();
+            y = event.getY();
+
+        }
+
+        mScaleGestureDetector.onTouchEvent(event);
+
+
+
+        return super.onTouchEvent(event);
+    }
+
+    class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+
+        @Override
+
+        public boolean onScale(ScaleGestureDetector scaleGestureDetector) {
+
+
+            mscaleFactor *= scaleGestureDetector.getScaleFactor();
+            mscaleFactor = Math.max(1.0f, Math.min(mscaleFactor,10.f));
+            binding.seatSelectRecyclerview.setScaleX(mscaleFactor);
+            binding.seatSelectRecyclerview.setScaleY(mscaleFactor);
+
+
+            return true;
+
+        }
 
     }
+
+
 
 
     public void getSeatInfo() {
 
+        SeatDocumentIdModel seatDocumentIdModel = new SeatDocumentIdModel(activityDocumentID);
 
-        firebaseFirestore.collection("Events").document("AMrY2Kus3303A2hs8C6p").collection("Saloon").addSnapshotListener(new EventListener<QuerySnapshot>() {
+        firebaseFirestore.collection("Events").document(activityDocumentID).collection("Saloon").orderBy("seatBox", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
 
@@ -162,6 +201,7 @@ public class SeatSelectActivity extends AppCompatActivity {
 
                 if (value != null) {
 
+                    modelSeatSelectArrayList.clear();
 
                     for (DocumentSnapshot snapshot : value.getDocuments()) {
 
@@ -169,13 +209,22 @@ public class SeatSelectActivity extends AppCompatActivity {
 
                         Map<String, Object> data = snapshot.getData();
 
-                        String seatName = (String) data.get("seatName");
-                        String seatStatus = (String) data.get("seatStatus");
-                        String seatOwnerTcNumber = (String) data.get("seatOwnerTcNumber");
+                         Long seatBoxLong = (Long) data.get("seatBox");
+                         String seatName = (String) data.get("seatName");
+                         Long seatStatusLong = (Long) data.get("seatStatus");
+                         String userName = (String) data.get("userName");
+                         String userEmail = (String) data.get("userEmail");
+                         String userTcNo = (String) data.get("userTcNo");
+                         String reservationUser = (String) data.get("reservationUser");
+                         Timestamp reservationTimeStamp = (Timestamp) data.get("reservationTimeStamp");
+                         String documentId = (String) snapshot.getId();
+
+                         Integer seatBox = seatBoxLong.intValue();
+                         Integer seatStatus = seatStatusLong.intValue();
 
 
 
-                        ModelSeatSelect modelSeatSelect = new ModelSeatSelect(seatName,seatStatus,seatOwnerTcNumber);
+                        ModelSeatSelect modelSeatSelect = new ModelSeatSelect(seatBox,seatName,seatStatus,userName,userEmail,userTcNo,reservationUser,reservationTimeStamp,documentId);
                         modelSeatSelectArrayList.add(modelSeatSelect);
 
                     }

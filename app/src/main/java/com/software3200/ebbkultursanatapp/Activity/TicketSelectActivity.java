@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
+import com.google.protobuf.StringValue;
 import com.software3200.ebbkultursanatapp.R;
 import com.software3200.ebbkultursanatapp.databinding.ActivityTicketSelectBinding;
 
@@ -13,9 +15,9 @@ public class TicketSelectActivity extends AppCompatActivity {
 
     ActivityTicketSelectBinding binding;
 
+    String activityDocumentID;
+
     String ticketInfo;
-    Double adultTicketPrice;
-    Double studentTicketPrice;
     String class1TicketName;
     Double class1TicketPrice;
     String class2TicketName;
@@ -25,14 +27,13 @@ public class TicketSelectActivity extends AppCompatActivity {
     String class4TicketName;
     Double class4TicketPrice;
 
-    Double ticketFree;
-    Double ticketSingle;
-    Double ticketAdult;
-    Double ticketStudent;
-    Double ticketClass1;
-    Double ticketClass2;
-    Double ticketClass3;
-    Double ticketClass4;
+    Double ticketClass1Piece = 0.0;
+    Double ticketClass2Piece = 0.0;
+    Double ticketClass3Piece = 0.0;
+    Double ticketClass4Piece = 0.0;
+
+    Double totalTicketPrice = 0.0;
+    Double totalTicketPiece = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,8 @@ public class TicketSelectActivity extends AppCompatActivity {
 
         Intent activityDetailToTicketSelectIntent = getIntent();
         ticketInfo = activityDetailToTicketSelectIntent.getStringExtra("TicketInfo");
+        activityDocumentID = activityDetailToTicketSelectIntent.getStringExtra("ActivityDocumentId");
+
 
         if (ticketInfo.equals("FreeTicket"))  {
 
@@ -53,6 +56,12 @@ public class TicketSelectActivity extends AppCompatActivity {
             binding.ticketSelect2Layout.setVisibility(View.INVISIBLE);
             binding.ticketSelect3Layout.setVisibility(View.INVISIBLE);
             binding.ticketSelect4Layout.setVisibility(View.INVISIBLE);
+            binding.ticketPriceTextView.setText("Ücretsiz");
+            class1TicketPrice = 0.0;
+            class2TicketPrice = 0.0;
+            class3TicketPrice = 0.0;
+            class4TicketPrice = 0.0;
+
 
         } else if (ticketInfo.equals("SingleTicket")) {
 
@@ -62,14 +71,30 @@ public class TicketSelectActivity extends AppCompatActivity {
             binding.ticketSelect3Layout.setVisibility(View.INVISIBLE);
             binding.ticketSelect4Layout.setVisibility(View.INVISIBLE);
 
+            class1TicketPrice = activityDetailToTicketSelectIntent.getDoubleExtra("TicketSinglePrice",0.0);
+
+            class2TicketPrice = 0.0;
+            class3TicketPrice = 0.0;
+            class4TicketPrice = 0.0;
+
 
         } else if (ticketInfo.equals("AdultandStudentTicket")) {
 
-            binding.ticketSelect1TitleTextView.setText("Tem");
+            binding.ticketSelect1TitleTextView.setText("Tam");
             binding.ticketSelect2TitleTextView.setText("Öğrenci");
 
             binding.ticketSelect3Layout.setVisibility(View.INVISIBLE);
             binding.ticketSelect4Layout.setVisibility(View.INVISIBLE);
+
+            class1TicketPrice = activityDetailToTicketSelectIntent.getDoubleExtra("TicketAdultPrice",0.0);
+
+
+            class2TicketPrice = activityDetailToTicketSelectIntent.getDoubleExtra("TicketStudentPrice",0.0);
+
+
+            class3TicketPrice = 0.0;
+            class4TicketPrice = 0.0;
+
 
         } else if (ticketInfo.equals("Class1Ticket")) {
 
@@ -80,6 +105,14 @@ public class TicketSelectActivity extends AppCompatActivity {
             binding.ticketSelect2Layout.setVisibility(View.INVISIBLE);
             binding.ticketSelect3Layout.setVisibility(View.INVISIBLE);
             binding.ticketSelect4Layout.setVisibility(View.INVISIBLE);
+
+            class1TicketPrice = activityDetailToTicketSelectIntent.getDoubleExtra("TicketPrice1",0.0);
+
+
+            class2TicketPrice = 0.0;
+            class3TicketPrice = 0.0;
+            class4TicketPrice = 0.0;
+
 
 
         } else if (ticketInfo.equals("Class2Ticket")) {
@@ -92,6 +125,16 @@ public class TicketSelectActivity extends AppCompatActivity {
 
             binding.ticketSelect3Layout.setVisibility(View.INVISIBLE);
             binding.ticketSelect4Layout.setVisibility(View.INVISIBLE);
+
+            class1TicketPrice = activityDetailToTicketSelectIntent.getDoubleExtra("TicketPrice1",0.0);
+
+
+            class2TicketPrice = activityDetailToTicketSelectIntent.getDoubleExtra("TicketPrice2",0.0);
+
+
+            class3TicketPrice = 0.0;
+            class4TicketPrice = 0.0;
+
 
 
 
@@ -107,6 +150,14 @@ public class TicketSelectActivity extends AppCompatActivity {
 
             binding.ticketSelect4Layout.setVisibility(View.INVISIBLE);
 
+            class1TicketPrice = activityDetailToTicketSelectIntent.getDoubleExtra("TicketPrice1",0.0);
+
+            class2TicketPrice = activityDetailToTicketSelectIntent.getDoubleExtra("TicketPrice2",0.0);
+
+            class3TicketPrice = activityDetailToTicketSelectIntent.getDoubleExtra("TicketPrice3",0.0);
+
+            class4TicketPrice = 0.0;
+
 
 
         }   else if (ticketInfo.equals("Class4Ticket")) {
@@ -121,8 +172,287 @@ public class TicketSelectActivity extends AppCompatActivity {
             binding.ticketSelect3TitleTextView.setText(class3TicketName);
             binding.ticketSelect3TitleTextView.setText(class4TicketName);
 
+            class1TicketPrice = activityDetailToTicketSelectIntent.getDoubleExtra("TicketPrice1",0.0);
+
+            class2TicketPrice = activityDetailToTicketSelectIntent.getDoubleExtra("TicketPrice2",0.0);
+
+            class3TicketPrice = activityDetailToTicketSelectIntent.getDoubleExtra("TicketPrice3",0.0);
+
+            class4TicketPrice = activityDetailToTicketSelectIntent.getDoubleExtra("TicketPrice4",0.0);
+
+
+
 
         }
+
+
+        binding.ticketselect1AddPositiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                totalTicketPiece = ticketClass1Piece + ticketClass2Piece + ticketClass3Piece + ticketClass4Piece;
+
+                if (totalTicketPiece >= 9) {
+
+
+                    Toast.makeText(TicketSelectActivity.this,"En fazla 9 adet bilet alabilirsiniz!!",Toast.LENGTH_LONG).show();
+
+                } else {
+
+                    ticketClass1Piece = ticketClass1Piece + 1.0;
+                    Integer pieceInt = ticketClass1Piece.intValue();
+                    binding.ticketSelect1NumberTextview.setText(String.valueOf(pieceInt));
+
+                    Double class1Price = ticketClass1Piece * class1TicketPrice;
+                    Double class2Price = ticketClass2Piece * class2TicketPrice;
+                    Double class3Price = ticketClass3Piece * class3TicketPrice;
+                    Double class4Price = ticketClass4Piece * class4TicketPrice;
+
+                    totalTicketPrice = class1Price + class2Price + class3Price + class4Price;
+
+                    binding.ticketPriceTextView.setText(String.valueOf(totalTicketPrice) + " TL");
+
+                }
+
+
+            }
+        });
+
+        binding.ticketSelect1NegativeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                totalTicketPiece = ticketClass1Piece + ticketClass2Piece + ticketClass3Piece + ticketClass4Piece;
+
+                if (totalTicketPiece == 0) {
+
+
+
+                } else {
+
+                    ticketClass1Piece = ticketClass1Piece - 1.0;
+                    Integer pieceInt = ticketClass1Piece.intValue();
+                    binding.ticketSelect1NumberTextview.setText(String.valueOf(pieceInt));
+
+                    Double class1Price = ticketClass1Piece * class1TicketPrice;
+                    Double class2Price = ticketClass2Piece * class2TicketPrice;
+                    Double class3Price = ticketClass3Piece * class3TicketPrice;
+                    Double class4Price = ticketClass4Piece * class4TicketPrice;
+
+                    totalTicketPrice = class1Price + class2Price + class3Price + class4Price;
+
+                    binding.ticketPriceTextView.setText(String.valueOf(totalTicketPrice) + " TL");
+
+                }
+
+
+
+
+
+            }
+        });
+
+        binding.ticketselect2AddPositiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                totalTicketPiece = ticketClass1Piece + ticketClass2Piece + ticketClass3Piece + ticketClass4Piece;
+
+                if (totalTicketPiece >= 9) {
+
+
+                    Toast.makeText(TicketSelectActivity.this,"En fazla 9 adet bilet alabilirsiniz!!",Toast.LENGTH_LONG).show();
+
+                } else {
+
+                    ticketClass2Piece = ticketClass2Piece + 1.0;
+                    Integer pieceInt = ticketClass2Piece.intValue();
+                    binding.ticketSelect2NumberTextview.setText(String.valueOf(pieceInt));
+
+                    Double class1Price = ticketClass1Piece * class1TicketPrice;
+                    Double class2Price = ticketClass2Piece * class2TicketPrice;
+                    Double class3Price = ticketClass3Piece * class3TicketPrice;
+                    Double class4Price = ticketClass4Piece * class4TicketPrice;
+
+                    totalTicketPrice = class1Price + class2Price + class3Price + class4Price;
+
+
+
+                    binding.ticketPriceTextView.setText(String.valueOf(totalTicketPrice) + " TL");
+
+                }
+
+
+            }
+        });
+
+        binding.ticketSelect2NegativeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                totalTicketPiece = ticketClass1Piece + ticketClass2Piece + ticketClass3Piece + ticketClass4Piece;
+
+                if (totalTicketPiece == 0) {
+
+
+
+                } else {
+
+                    ticketClass2Piece = ticketClass2Piece - 1.0;
+                    Integer pieceInt = ticketClass2Piece.intValue();
+                    binding.ticketSelect2NumberTextview.setText(String.valueOf(pieceInt));
+
+                    Double class1Price = ticketClass1Piece * class1TicketPrice;
+                    Double class2Price = ticketClass2Piece * class2TicketPrice;
+                    Double class3Price = ticketClass3Piece * class3TicketPrice;
+                    Double class4Price = ticketClass4Piece * class4TicketPrice;
+
+                    totalTicketPrice = class1Price + class2Price + class3Price + class4Price;
+
+                    binding.ticketPriceTextView.setText(String.valueOf(totalTicketPrice) + " TL");
+
+                }
+
+
+
+
+
+            }
+        });
+
+        binding.ticketselect3AddPositiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                totalTicketPiece = ticketClass1Piece + ticketClass2Piece + ticketClass3Piece + ticketClass4Piece;
+
+                if (totalTicketPiece >= 9) {
+
+
+                    Toast.makeText(TicketSelectActivity.this,"En fazla 9 adet bilet alabilirsiniz!!",Toast.LENGTH_LONG).show();
+
+                } else {
+
+                    ticketClass3Piece = ticketClass3Piece + 1.0;
+                    Integer pieceInt = ticketClass3Piece.intValue();
+                    binding.ticketSelect3NumberTextview.setText(String.valueOf(pieceInt));
+
+                    Double class1Price = ticketClass1Piece * class1TicketPrice;
+                    Double class2Price = ticketClass2Piece * class2TicketPrice;
+                    Double class3Price = ticketClass3Piece * class3TicketPrice;
+                    Double class4Price = ticketClass4Piece * class4TicketPrice;
+
+                    totalTicketPrice = class1Price + class2Price + class3Price + class4Price;
+
+                    binding.ticketPriceTextView.setText(String.valueOf(totalTicketPrice) + " TL");
+
+                }
+
+
+            }
+        });
+
+        binding.ticketSelect3NegativeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                totalTicketPiece = ticketClass1Piece + ticketClass2Piece + ticketClass3Piece + ticketClass4Piece;
+
+                if (totalTicketPiece == 0) {
+
+
+
+                } else {
+
+                    ticketClass3Piece = ticketClass3Piece - 1.0;
+                    Integer pieceInt = ticketClass3Piece.intValue();
+                    binding.ticketSelect3NumberTextview.setText(String.valueOf(pieceInt));
+
+                    Double class1Price = ticketClass1Piece * class1TicketPrice;
+                    Double class2Price = ticketClass2Piece * class2TicketPrice;
+                    Double class3Price = ticketClass3Piece * class3TicketPrice;
+                    Double class4Price = ticketClass4Piece * class4TicketPrice;
+
+                    totalTicketPrice = class1Price + class2Price + class3Price + class4Price;
+
+                    binding.ticketPriceTextView.setText(String.valueOf(totalTicketPrice) + " TL");
+
+                }
+
+
+
+
+
+            }
+        });
+
+        binding.ticketselect4AddPositiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                totalTicketPiece = ticketClass1Piece + ticketClass2Piece + ticketClass3Piece + ticketClass4Piece;
+
+                if (totalTicketPiece >= 9) {
+
+
+                    Toast.makeText(TicketSelectActivity.this,"En fazla 9 adet bilet alabilirsiniz!!",Toast.LENGTH_LONG).show();
+
+                } else {
+
+                    ticketClass4Piece = ticketClass4Piece + 1.0;
+                    Integer pieceInt = ticketClass4Piece.intValue();
+                    binding.ticketSelect4NumberTextview.setText(String.valueOf(pieceInt));
+
+                    Double class1Price = ticketClass1Piece * class1TicketPrice;
+                    Double class2Price = ticketClass2Piece * class2TicketPrice;
+                    Double class3Price = ticketClass3Piece * class3TicketPrice;
+                    Double class4Price = ticketClass4Piece * class4TicketPrice;
+
+                    totalTicketPrice = class1Price + class2Price + class3Price + class4Price;
+
+                    binding.ticketPriceTextView.setText(String.valueOf(totalTicketPrice) + " TL");
+
+                }
+
+
+            }
+        });
+
+        binding.ticketSelect4NegativeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                totalTicketPiece = ticketClass1Piece + ticketClass2Piece + ticketClass3Piece + ticketClass4Piece;
+
+                if (totalTicketPiece == 0) {
+
+
+
+                } else {
+
+                    ticketClass4Piece = ticketClass4Piece - 1.0;
+                    Integer pieceInt = ticketClass4Piece.intValue();
+                    binding.ticketSelect4NumberTextview.setText(String.valueOf(pieceInt));
+
+                    Double class1Price = ticketClass1Piece * class1TicketPrice;
+                    Double class2Price = ticketClass2Piece * class2TicketPrice;
+                    Double class3Price = ticketClass3Piece * class3TicketPrice;
+                    Double class4Price = ticketClass4Piece * class4TicketPrice;
+
+                    totalTicketPrice = class1Price + class2Price + class3Price + class4Price;
+
+                    binding.ticketPriceTextView.setText(String.valueOf(totalTicketPrice) + " TL");
+
+                }
+
+
+
+
+
+            }
+        });
+
+
 
         binding.selectAndContinueButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,49 +460,17 @@ public class TicketSelectActivity extends AppCompatActivity {
 
 
                 Intent ticketToSeatIntent = new Intent(TicketSelectActivity.this, SeatSelectActivity.class);
+                ticketToSeatIntent.putExtra("TicketPiece",totalTicketPiece);
+                ticketToSeatIntent.putExtra("TicketTotalPrice",totalTicketPrice);
+                ticketToSeatIntent.putExtra("ActivityDocumentId",activityDocumentID);
+
                 startActivity(ticketToSeatIntent);
 
             }
         });
 
 
-        binding.ticketselect1AddPositiveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                if (ticketInfo.equals("FreeTicket"))  {
-
-
-
-
-                } else if (ticketInfo.equals("SingleTicket")) {
-
-
-
-                } else if (ticketInfo.equals("AdultandStudentTicket")) {
-
-
-
-                } else if (ticketInfo.equals("Class1Ticket")) {
-
-
-
-                } else if (ticketInfo.equals("Class2Ticket")) {
-
-
-
-                } else if (ticketInfo.equals("Class3Ticket")) {
-
-
-
-                } else if (ticketInfo.equals("Class4Ticket")) {
-
-
-                }
-
-
-            }
-        });
 
     }
 
