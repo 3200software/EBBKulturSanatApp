@@ -1,6 +1,7 @@
 package com.software3200.ebbkultursanatapp.Activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -8,9 +9,14 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.software3200.ebbkultursanatapp.R;
 import com.software3200.ebbkultursanatapp.databinding.ActivityAuthBinding;
 
@@ -19,6 +25,8 @@ public class AuthActivity extends AppCompatActivity {
     ActivityAuthBinding binding;
 
     FirebaseAuth firebaseAuth;
+
+    FirebaseFirestore firebaseFirestore;
 
 
     @Override
@@ -30,6 +38,7 @@ public class AuthActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         firebaseAuth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
         binding.authPasswordAgainEditText.setVisibility(View.INVISIBLE);
         binding.alertTextview.setVisibility(View.GONE);
@@ -38,10 +47,26 @@ public class AuthActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                binding.authSaveTextviewLink.setVisibility(View.INVISIBLE);
-                binding.authTitleTextView.setText("Kayıt Ol");
-                binding.authPasswordAgainEditText.setVisibility(View.VISIBLE);
-                binding.authButton.setText("Kayıt Ol");
+                String controlText = binding.authTitleTextView.getText().toString();
+
+                if (controlText.equals("Giriş Yap")) {
+
+                    binding.authSaveTextviewLink.setText("<< Giriş Yap");
+                    binding.authTitleTextView.setText("Kayıt Ol");
+                    binding.authPasswordAgainEditText.setVisibility(View.VISIBLE);
+                    binding.authButton.setText("Kayıt Ol");
+
+                } else if(controlText.equals("Kayıt Ol")) {
+
+                    binding.authSaveTextviewLink.setText("Kayıt olmak için buraya tıklayın");
+                    binding.authTitleTextView.setText("Giriş Yap");
+                    binding.authPasswordAgainEditText.setVisibility(View.INVISIBLE);
+                    binding.authButton.setText("Giriş Yap");
+
+
+                }
+
+
 
             }
         });
@@ -70,7 +95,7 @@ public class AuthActivity extends AppCompatActivity {
 
 
 
-                } else if (controlText.equals("Kayıl Ol")) {
+                } else if (controlText.equals("Kayıt Ol")) {
 
                     String email = binding.authEmailEditText.getText().toString();
                     String password = binding.authPasswordEditText.getText().toString();
@@ -78,6 +103,33 @@ public class AuthActivity extends AppCompatActivity {
                     firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
+
+                            firebaseFirestore.collection("Users").addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                @Override
+                                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                                    if
+
+
+
+
+                                }
+                            });
+
+
+
+                            binding.authSaveTextviewLink.setText("Kayıt olmak için buraya tıklayın");
+                            binding.authTitleTextView.setText("Giriş Yap");
+                            binding.authPasswordAgainEditText.setVisibility(View.INVISIBLE);
+                            binding.authButton.setText("Giriş Yap");
+
+
+
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
 
 
 
