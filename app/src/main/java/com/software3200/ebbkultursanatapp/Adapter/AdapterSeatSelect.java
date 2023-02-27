@@ -7,16 +7,24 @@ import static com.software3200.ebbkultursanatapp.R.drawable.seat_full_;
 import static com.software3200.ebbkultursanatapp.R.drawable.seat_protocol_;
 import static com.software3200.ebbkultursanatapp.R.drawable.seat_select_;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.software3200.ebbkultursanatapp.Activity.AuthActivity;
+import com.software3200.ebbkultursanatapp.Activity.MainActivity;
 import com.software3200.ebbkultursanatapp.JavaModel.SeatDocumentIdModel;
 import com.software3200.ebbkultursanatapp.Model.ModelSeatSelect;
 import com.software3200.ebbkultursanatapp.R;
@@ -53,6 +61,7 @@ public class AdapterSeatSelect extends RecyclerView.Adapter<AdapterSeatSelect.Se
     public void onBindViewHolder(@NonNull SeatSelectHolder holder, int position) {
 
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
 
 
@@ -129,6 +138,7 @@ public class AdapterSeatSelect extends RecyclerView.Adapter<AdapterSeatSelect.Se
 
                     HashMap<String,Object> updateSeatEmpty = new HashMap<>();
                     updateSeatEmpty.put("seatStatus",2);
+                    updateSeatEmpty.put("reservationUser", firebaseAuth.getCurrentUser().getEmail());
 
                     holder.recyclerRowSeatSelectBinding.seatSelectButton.setBackgroundResource(seat_select_);
 
@@ -139,10 +149,76 @@ public class AdapterSeatSelect extends RecyclerView.Adapter<AdapterSeatSelect.Se
 
                 } else if (seatStatus == 2) {
 
+
+                    firebaseFirestore.collection("Events").document("ECQnpWTp9HEDIykhpe5f").collection("Saloon").document(modelSeatSelectArrayList.get(position).documentId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                            if (task.isSuccessful()) {
+
+                                DocumentSnapshot document = task.getResult();
+
+                                if (document.exists()) {
+
+                                    String userEmail = (String) document.get("reservationUser");
+
+
+                                    if (userEmail.equals(firebaseAuth.getCurrentUser().getEmail())){
+
+                                        holder.recyclerRowSeatSelectBinding.seatSelectButton.setBackgroundResource(seat_border_back_empty);
+
+                                        HashMap<String,Object> updateSeatEmpty = new HashMap<>();
+                                        updateSeatEmpty.put("seatStatus",0);
+                                        
+                                        firebaseFirestore.collection("Events").document("ECQnpWTp9HEDIykhpe5f").collection("Saloon").document(modelSeatSelectArrayList.get(position).documentId).update(updateSeatEmpty);
+
+                                        notifyDataSetChanged();
+                                        
+
+                                    } else {
+
+
+                                        Toast.makeText(view.getContext(), "Koltuk başka sepette!", Toast.LENGTH_SHORT).show();
+
+
+                                    }
+
+                                } else {
+
+
+
+                                }
+
+
+                            } else {
+
+
+
+                            }
+
+
+
+                        }
+                    });
+
+
+
+
+
+
+
+
+
                     holder.recyclerRowSeatSelectBinding.seatSelectButton.setBackgroundResource(seat_border_back_empty);
+
+
+
+
+
 
                     HashMap<String,Object> updateSeatEmpty = new HashMap<>();
                     updateSeatEmpty.put("seatStatus",0);
+
 
                     firebaseFirestore.collection("Events").document("ECQnpWTp9HEDIykhpe5f").collection("Saloon").document(modelSeatSelectArrayList.get(position).documentId).update(updateSeatEmpty);
 

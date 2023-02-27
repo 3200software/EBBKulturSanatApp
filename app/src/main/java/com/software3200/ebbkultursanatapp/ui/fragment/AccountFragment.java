@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.software3200.ebbkultursanatapp.Activity.AuthActivity;
+import com.software3200.ebbkultursanatapp.Activity.MainActivity;
 import com.software3200.ebbkultursanatapp.databinding.FragmentAccountBinding;
 
 
@@ -37,6 +38,30 @@ public class AccountFragment extends Fragment {
             startActivity(authControlIntent);
 
         }
+
+        binding.logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                firebaseAuth.signOut();
+                Intent signOutIntent = new Intent(requireActivity(), MainActivity.class);
+                startActivity(signOutIntent);
+
+
+
+            }
+        });
+
+        binding.ticketsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent signOutIntent = new Intent(requireActivity(), MainActivity.class);
+                startActivity(signOutIntent);
+
+            }
+        });
 
 
         return root;
