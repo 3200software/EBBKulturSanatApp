@@ -3,30 +3,27 @@ package com.software3200.ebbkultursanatapp.Activity;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.Toast;
 
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.software3200.ebbkultursanatapp.Adapter.AdapterHomeBanner;
 import com.software3200.ebbkultursanatapp.Adapter.AdapterSeatSelect;
 import com.software3200.ebbkultursanatapp.JavaModel.SeatDocumentIdModel;
-import com.software3200.ebbkultursanatapp.Model.ModelHomeBanner;
 import com.software3200.ebbkultursanatapp.Model.ModelSeatSelect;
+import com.software3200.ebbkultursanatapp.Model.ModelUserSelectSeats;
 import com.software3200.ebbkultursanatapp.R;
 import com.software3200.ebbkultursanatapp.databinding.ActivitySeatSelectBinding;
 
@@ -38,11 +35,17 @@ public class SeatSelectActivity extends AppCompatActivity {
     ActivitySeatSelectBinding binding;
 
     ArrayList<ModelSeatSelect> modelSeatSelectArrayList;
+
+    ArrayList<ModelUserSelectSeats> modelUserSelectSeatsArrayList;
+
     AdapterSeatSelect adapterSeatSelect;
 
     FirebaseFirestore firebaseFirestore;
+    FirebaseAuth firebaseAuth;
 
     String activityDocumentID;
+    String currentUserEmail;
+
 
 
     private ScaleGestureDetector mScaleGestureDetector;
@@ -63,21 +66,40 @@ public class SeatSelectActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
 
         Intent activityTicketSelectToSeatSelectIntent = getIntent();
         activityDocumentID = activityTicketSelectToSeatSelectIntent.getStringExtra("ActivityDocumentId");
 
+
+
+
+
         modelSeatSelectArrayList = new ArrayList<>();
+        modelUserSelectSeatsArrayList = new ArrayList<>();
         getSeatInfo();
+
+
 
         RecyclerView.LayoutManager linearLayoutHomeBanner = new GridLayoutManager(this, 29);
         binding.seatSelectRecyclerview.setLayoutManager(linearLayoutHomeBanner);
-        adapterSeatSelect = new AdapterSeatSelect(modelSeatSelectArrayList);
+        adapterSeatSelect = new AdapterSeatSelect(modelSeatSelectArrayList,modelUserSelectSeatsArrayList);
         binding.seatSelectRecyclerview.setAdapter(adapterSeatSelect);
-
 
         mScaleGestureDetector = new ScaleGestureDetector(this,new ScaleListener());
 
+
+        binding.selectAndContinueButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent paymentIntent = new Intent(SeatSelectActivity.this, PaymentActivity.class);
+                paymentIntent.putExtra("UserSelectSeatsArray",modelUserSelectSeatsArrayList);
+                startActivity(paymentIntent);
+
+            }
+        });
 
 
 
@@ -224,8 +246,11 @@ public class SeatSelectActivity extends AppCompatActivity {
 
 
 
-                        ModelSeatSelect modelSeatSelect = new ModelSeatSelect(seatBox,seatName,seatStatus,userName,userEmail,userTcNo,reservationUser,reservationTimeStamp,documentId);
+                        ModelSeatSelect modelSeatSelect = new ModelSeatSelect(seatBox,seatName,seatStatus,userName,userEmail,userTcNo,reservationUser,reservationTimeStamp,documentId,activityDocumentID);
                         modelSeatSelectArrayList.add(modelSeatSelect);
+
+
+
 
                     }
 

@@ -63,7 +63,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Boş Koltuk"
+            android:text="Boş"
             android:layout_marginLeft="5dp"
             android:layout_gravity="center"></TextView>
 
@@ -85,7 +85,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Dolu Koltuk"
+                android:text="Dolu"
                 android:layout_marginLeft="5dp"
                 android:layout_gravity="center"></TextView>
 
@@ -107,7 +107,28 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Seçilen Koltuk"
+                android:text="Seçilen"
+                android:layout_marginLeft="5dp"
+                android:layout_gravity="center"></TextView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp">
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@drawable/seat_another_basket"
+                android:layout_gravity="center"></View>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Başka Sepette"
                 android:layout_marginLeft="5dp"
                 android:layout_gravity="center"></TextView>
 

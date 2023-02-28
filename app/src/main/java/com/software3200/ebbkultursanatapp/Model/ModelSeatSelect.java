@@ -14,7 +14,11 @@ public class ModelSeatSelect {
     public Timestamp reservationTimeStamp;
     public String documentId;
 
-    public ModelSeatSelect(Integer seatBox, String seatName, Integer seatStatus, String userName, String userEmail, String userTcNo, String reservationUser, Timestamp reservationTimeStamp, String documentId) {
+    public String parrentDocumentId;
+
+
+
+    public ModelSeatSelect(Integer seatBox, String seatName, Integer seatStatus, String userName, String userEmail, String userTcNo, String reservationUser, Timestamp reservationTimeStamp, String documentId, String parrentDocumentId) {
         this.seatBox = seatBox;
         this.seatName = seatName;
         this.seatStatus = seatStatus;
@@ -24,5 +28,7 @@ public class ModelSeatSelect {
         this.reservationUser = reservationUser;
         this.reservationTimeStamp = reservationTimeStamp;
         this.documentId = documentId;
+        this.parrentDocumentId = parrentDocumentId;
+
     }
 }
