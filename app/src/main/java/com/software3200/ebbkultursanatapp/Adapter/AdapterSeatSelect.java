@@ -7,6 +7,8 @@ import static com.software3200.ebbkultursanatapp.R.drawable.seat_full_;
 import static com.software3200.ebbkultursanatapp.R.drawable.seat_protocol_;
 import static com.software3200.ebbkultursanatapp.R.drawable.seat_select_;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +18,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.software3200.ebbkultursanatapp.Model.ModelSeatSelect;
 import com.software3200.ebbkultursanatapp.Model.ModelUserSelectSeats;
@@ -29,6 +34,7 @@ public class AdapterSeatSelect extends RecyclerView.Adapter<AdapterSeatSelect.Se
 
     FirebaseFirestore firebaseFirestore;
 
+    Integer totalTicketPiece;
 
 
     ArrayList<ModelSeatSelect> modelSeatSelectArrayList;
@@ -63,18 +69,8 @@ public class AdapterSeatSelect extends RecyclerView.Adapter<AdapterSeatSelect.Se
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
 
-
-
-
-
         Integer seatStatus = modelSeatSelectArrayList.get(position).seatStatus;
         String seatnamex = modelSeatSelectArrayList.get(position).seatName;
-
-
-
-
-
-
 
 
 
@@ -149,12 +145,40 @@ public class AdapterSeatSelect extends RecyclerView.Adapter<AdapterSeatSelect.Se
 
 
 
+                firebaseFirestore.collection("Users").document(firebaseAuth.getCurrentUser().getEmail()).collection("Tickets").document(modelSeatSelectArrayList.get(position).ticketSerialnumber).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                        if(task.isSuccessful()){
+
+                            DocumentSnapshot document = task.getResult();
+
+                            if (document.exists()) {
+
+                                Long totalTicketPieceLong = (Long) document.get("totalTicketPiece");
+
+                                totalTicketPiece = totalTicketPieceLong.intValue();
+
+                            } else {
+
+                                Toast.makeText(view.getContext(),"İnternet bağlantısında bir sorun var! Lütfen internet bağlantınızı kontrol edin.",Toast.LENGTH_LONG).show();
+
+                            }
+
+
+
+
+                        }
+
+                    }
+                });
+
+
                 if (seatStatus == 0){
 
                     HashMap<String,Object> updateSeatEmpty = new HashMap<>();
                     updateSeatEmpty.put("seatStatus",2);
                     updateSeatEmpty.put("reservationUser",firebaseAuth.getCurrentUser().getEmail());
-
 
                     holder.recyclerRowSeatSelectBinding.seatSelectButton.setBackgroundResource(seat_select_);
 

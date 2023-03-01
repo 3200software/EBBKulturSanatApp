@@ -1,5 +1,6 @@
 package com.software3200.ebbkultursanatapp.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -7,15 +8,37 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.protobuf.StringValue;
 import com.software3200.ebbkultursanatapp.R;
 import com.software3200.ebbkultursanatapp.databinding.ActivityTicketSelectBinding;
+import com.squareup.picasso.Picasso;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TicketSelectActivity extends AppCompatActivity {
 
     ActivityTicketSelectBinding binding;
 
-    String activityDocumentID;
+    FirebaseAuth firebaseAuth;
+    FirebaseFirestore firebaseFirestore;
+
+    String selectActivityDocumentID;
+    String selectActivityName;
+    String selectActivityImgUrl;
+    String selectActivitTimeString;
+
+    String ticketSerialnumber;
+
+
+
 
     String ticketInfo;
     String class1TicketName;
@@ -43,10 +66,26 @@ public class TicketSelectActivity extends AppCompatActivity {
         binding = ActivityTicketSelectBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
 
         Intent activityDetailToTicketSelectIntent = getIntent();
         ticketInfo = activityDetailToTicketSelectIntent.getStringExtra("TicketInfo");
-        activityDocumentID = activityDetailToTicketSelectIntent.getStringExtra("ActivityDocumentId");
+        selectActivityDocumentID = activityDetailToTicketSelectIntent.getStringExtra("ActivityDocumentId");
+        selectActivityName = activityDetailToTicketSelectIntent.getStringExtra("selectActivityName");
+        selectActivityImgUrl = activityDetailToTicketSelectIntent.getStringExtra("selectActivityImageURL");
+        selectActivitTimeString = activityDetailToTicketSelectIntent.getStringExtra("selectActivityTimeString");
+        ticketSerialnumber =activityDetailToTicketSelectIntent.getStringExtra("ticketSerialNumber");
+
+
+        System.out.println("heyy" + selectActivityImgUrl + selectActivitTimeString);
+
+
+
+        Picasso.get().load(selectActivityImgUrl).into(binding.activityImageView);
+        binding.activityTitleTextview.setText(selectActivityName);
+        binding.activityTimeTextview.setText(selectActivitTimeString);
 
 
         if (ticketInfo.equals("FreeTicket"))  {
@@ -459,12 +498,56 @@ public class TicketSelectActivity extends AppCompatActivity {
             public void onClick(View view) {
 
 
-                Intent ticketToSeatIntent = new Intent(TicketSelectActivity.this, SeatSelectActivity.class);
-                ticketToSeatIntent.putExtra("TicketPiece",totalTicketPiece);
-                ticketToSeatIntent.putExtra("TicketTotalPrice",totalTicketPrice);
-                ticketToSeatIntent.putExtra("ActivityDocumentId",activityDocumentID);
+                HashMap<String, Object> ticketInfo = new HashMap<>();
+                ticketInfo.put("totalTicketPiece",totalTicketPiece);
+                ticketInfo.put("totalTicketPrice", totalTicketPrice);
 
-                startActivity(ticketToSeatIntent);
+
+
+
+                firebaseFirestore.collection("Users").document(firebaseAuth.getCurrentUser().getEmail()).collection("Tickets").document(ticketSerialnumber).update(ticketInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                       if (task.isSuccessful()) {
+
+
+                           Intent ticketToSeatIntent = new Intent(TicketSelectActivity.this, SeatSelectActivity.class);
+                           ticketToSeatIntent.putExtra("TicketPiece",totalTicketPiece);
+                           ticketToSeatIntent.putExtra("TicketTotalPrice",totalTicketPrice);
+                           ticketToSeatIntent.putExtra("ActivityDocumentId",selectActivityDocumentID);
+                           ticketToSeatIntent.putExtra("selectActivityName", selectActivityName);
+                           ticketToSeatIntent.putExtra("selectActivityImageURL",selectActivityImgUrl);
+                           ticketToSeatIntent.putExtra("selectActivityTimeString",selectActivitTimeString);
+                           ticketToSeatIntent.putExtra("ticketSerialnumber",ticketSerialnumber);
+
+
+                           startActivity(ticketToSeatIntent);
+
+
+
+                       } else {
+
+
+                           Toast.makeText(TicketSelectActivity.this, "İnternet bağlantınızda bir problem olabilir! Lütfen daha sonra tekrar deneyin.", Toast.LENGTH_LONG).show();
+
+
+                       }
+
+
+
+                    }
+                });
+
+
+
+
+
+
+
+
+
+
 
             }
         });

@@ -28,6 +28,8 @@ public class PaymentActivity extends AppCompatActivity {
         Intent getSeatInfoIntent = getIntent();
 
 
+
+
         modelUserSelectSeatsArrayList = new ArrayList<>();
 
         System.out.println(modelUserSelectSeatsArrayList);

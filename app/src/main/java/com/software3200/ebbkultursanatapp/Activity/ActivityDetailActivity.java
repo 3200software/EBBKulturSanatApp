@@ -7,10 +7,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Layout;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.software3200.ebbkultursanatapp.R;
@@ -22,14 +25,25 @@ import java.sql.SQLOutput;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class ActivityDetailActivity extends AppCompatActivity {
 
     ActivityDetailBinding binding;
 
     FirebaseFirestore firebaseFirestore;
+    FirebaseAuth firebaseAuth;
 
-    String activityDocumentID;
+    String selectActivityDocumentID;
+    String selectActivityName;
+    String selectActivityImgUrl;
+    String selectActivitTimeString;
+    String ticketSerialnumber;
+
+    Timestamp activityDateTimestampPublic;
+
+
 
     Integer infoLayoutHeight;
     Integer descriptionLayoutHeight;
@@ -62,9 +76,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         Intent intent = getIntent();
-        activityDocumentID = intent.getStringExtra("ActivityDocumentId");
-
-        System.out.println("DocumentID" + activityDocumentID);
+        selectActivityDocumentID = intent.getStringExtra("ActivityDocumentId");
 
         binding.activityButton.setText("Bilet Al");
 
@@ -83,87 +95,150 @@ public class ActivityDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                System.out.println(activityTicketInfo);
+                ticketSerialnumber = UUID.randomUUID().toString();
 
-                if (activityTicketInfo.equals("1")) {
-
-                    System.out.println(activityTicketInfo);
-                    Intent activityDetailToticketSelectIntent = new Intent(ActivityDetailActivity.this, TicketSelectActivity.class);
-                    activityDetailToticketSelectIntent.putExtra("TicketInfo", "FreeTicket");
-                    activityDetailToticketSelectIntent.putExtra("ActivityDocumentId", activityDocumentID);
-                    startActivity(activityDetailToticketSelectIntent);
-
-
-                } else if (activityTicketInfo.equals("2")) {
-
-                        Intent activityDetailToticketSelectIntent = new Intent(ActivityDetailActivity.this, TicketSelectActivity.class);
-                        activityDetailToticketSelectIntent.putExtra("TicketInfo", "SingleTicket");
-                        activityDetailToticketSelectIntent.putExtra("TicketSinglePrice", activityTicketClass1Price );
-                    activityDetailToticketSelectIntent.putExtra("ActivityDocumentId", activityDocumentID);
-                        startActivity(activityDetailToticketSelectIntent);
-
-                } else if (activityTicketInfo.equals("3")) {
-
-                        Intent activityDetailToticketSelectIntent = new Intent(ActivityDetailActivity.this, TicketSelectActivity.class);
-                        activityDetailToticketSelectIntent.putExtra("TicketInfo", "AdultandStudentTicket");
-                        activityDetailToticketSelectIntent.putExtra("TicketAdultPrice", activityTicketClass1Price);
-                        activityDetailToticketSelectIntent.putExtra("TicketStudentPrice",activityTicketClass2Price);
-                    activityDetailToticketSelectIntent.putExtra("ActivityDocumentId", activityDocumentID);
-                        startActivity(activityDetailToticketSelectIntent);
+                HashMap<String, Object> ticketInfo = new HashMap<>();
+                ticketInfo.put("ticketSerialNumber",ticketSerialnumber);
+                ticketInfo.put("totalTicketPiece",0);
+                ticketInfo.put("totalTicketPrice", 0.0);
+                ticketInfo.put("activityName",selectActivityName);
+                ticketInfo.put("activityTime",selectActivityName);
+                ticketInfo.put("ticketQrCode","");
+                ticketInfo.put("ticketQrImage","");
+                ticketInfo.put("ticketSeatName","");
+                ticketInfo.put("ticketImgUrl",selectActivityImgUrl);
+                ticketInfo.put("ticketSuccess",false);
+                ticketInfo.put("ticketDate", activityDateTimestampPublic);
 
 
-                } else if (activityTicketInfo.equals("4")) {
+                firebaseFirestore.collection("Users").document(firebaseAuth.getCurrentUser().getEmail()).collection("Tickets").add(ticketInfo).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
 
-                            Intent activityDetailToticketSelectIntent = new Intent(ActivityDetailActivity.this, TicketSelectActivity.class);
-                            activityDetailToticketSelectIntent.putExtra("TicketInfo", "Class1Ticket");
-                            activityDetailToticketSelectIntent.putExtra("TicketName1", activityTicketClass1Name);
-                            activityDetailToticketSelectIntent.putExtra("TicketPrice1",activityTicketClass1Price);
-                    activityDetailToticketSelectIntent.putExtra("ActivityDocumentId", activityDocumentID);
-                            startActivity(activityDetailToticketSelectIntent);
+                        if (task.isSuccessful()) {
 
+                            if (activityTicketInfo.equals("1")) {
 
-                } else if  (activityTicketInfo.equals("5")) {
-
-                            Intent activityDetailToticketSelectIntent = new Intent(ActivityDetailActivity.this, TicketSelectActivity.class);
-                            activityDetailToticketSelectIntent.putExtra("TicketInfo", "Class2Ticket");
-                            activityDetailToticketSelectIntent.putExtra("TicketName1", activityTicketClass1Name);
-                            activityDetailToticketSelectIntent.putExtra("TicketPrice1",activityTicketClass1Price);
-                            activityDetailToticketSelectIntent.putExtra("TicketName2", activityTicketClass2Name);
-                            activityDetailToticketSelectIntent.putExtra("TicketPrice2",activityTicketClass2Price);
-                            activityDetailToticketSelectIntent.putExtra("ActivityDocumentId", activityDocumentID);
-                            startActivity(activityDetailToticketSelectIntent);
+                                System.out.println(activityTicketInfo);
+                                Intent activityDetailToticketSelectIntent = new Intent(ActivityDetailActivity.this, TicketSelectActivity.class);
+                                activityDetailToticketSelectIntent.putExtra("TicketInfo", "FreeTicket");
+                                activityDetailToticketSelectIntent.putExtra("ActivityDocumentId", selectActivityDocumentID);
+                                activityDetailToticketSelectIntent.putExtra("selectActivityName", selectActivityName);
+                                activityDetailToticketSelectIntent.putExtra("selectActivityImageURL",selectActivityImgUrl);
+                                activityDetailToticketSelectIntent.putExtra("selectActivityTimeString",selectActivitTimeString);
+                                activityDetailToticketSelectIntent.putExtra("ticketSerialNumber",ticketSerialnumber);
+                                startActivity(activityDetailToticketSelectIntent);
 
 
-                } else if  (activityTicketInfo.equals("6")) {
+                            } else if (activityTicketInfo.equals("2")) {
 
-                            Intent activityDetailToticketSelectIntent = new Intent(ActivityDetailActivity.this, TicketSelectActivity.class);
-                            activityDetailToticketSelectIntent.putExtra("TicketInfo", "Class3Ticket");
-                            activityDetailToticketSelectIntent.putExtra("TicketName1", activityTicketClass1Name);
-                            activityDetailToticketSelectIntent.putExtra("TicketPrice1",activityTicketClass1Price);
-                            activityDetailToticketSelectIntent.putExtra("TicketName2", activityTicketClass2Name);
-                            activityDetailToticketSelectIntent.putExtra("TicketPrice2",activityTicketClass2Price);
-                            activityDetailToticketSelectIntent.putExtra("TicketName3", activityTicketClass3Name);
-                            activityDetailToticketSelectIntent.putExtra("TicketPrice3",activityTicketClass3Price);
-                            activityDetailToticketSelectIntent.putExtra("ActivityDocumentId", activityDocumentID);
-                            startActivity(activityDetailToticketSelectIntent);
+                                Intent activityDetailToticketSelectIntent = new Intent(ActivityDetailActivity.this, TicketSelectActivity.class);
+                                activityDetailToticketSelectIntent.putExtra("TicketInfo", "SingleTicket");
+                                activityDetailToticketSelectIntent.putExtra("TicketSinglePrice", activityTicketClass1Price );
+                                activityDetailToticketSelectIntent.putExtra("ActivityDocumentId", selectActivityDocumentID);
+                                activityDetailToticketSelectIntent.putExtra("selectActivityName", selectActivityName);
+                                activityDetailToticketSelectIntent.putExtra("selectActivityImageURL",selectActivityImgUrl);
+                                activityDetailToticketSelectIntent.putExtra("selectActivityTimeString",selectActivitTimeString);
+                                activityDetailToticketSelectIntent.putExtra("ticketSerialNumber",ticketSerialnumber);
+                                startActivity(activityDetailToticketSelectIntent);
+
+                            } else if (activityTicketInfo.equals("3")) {
+
+                                Intent activityDetailToticketSelectIntent = new Intent(ActivityDetailActivity.this, TicketSelectActivity.class);
+                                activityDetailToticketSelectIntent.putExtra("TicketInfo", "AdultandStudentTicket");
+                                activityDetailToticketSelectIntent.putExtra("TicketAdultPrice", activityTicketClass1Price);
+                                activityDetailToticketSelectIntent.putExtra("TicketStudentPrice",activityTicketClass2Price);
+                                activityDetailToticketSelectIntent.putExtra("ActivityDocumentId", selectActivityDocumentID);
+                                activityDetailToticketSelectIntent.putExtra("ticketSerialNumber",ticketSerialnumber);
+                                startActivity(activityDetailToticketSelectIntent);
 
 
-                } else if  (activityTicketInfo.equals("7")) {
+                            } else if (activityTicketInfo.equals("4")) {
 
-                            Intent activityDetailToticketSelectIntent = new Intent(ActivityDetailActivity.this, TicketSelectActivity.class);
-                            activityDetailToticketSelectIntent.putExtra("TicketInfo", "Class4Ticket");
-                            activityDetailToticketSelectIntent.putExtra("TicketName1", activityTicketClass1Name);
-                            activityDetailToticketSelectIntent.putExtra("TicketPrice1",activityTicketClass1Price);
-                            activityDetailToticketSelectIntent.putExtra("TicketName2", activityTicketClass2Name);
-                            activityDetailToticketSelectIntent.putExtra("TicketPrice2",activityTicketClass2Price);
-                            activityDetailToticketSelectIntent.putExtra("TicketName3", activityTicketClass3Name);
-                            activityDetailToticketSelectIntent.putExtra("TicketPrice3",activityTicketClass3Price);
-                            activityDetailToticketSelectIntent.putExtra("TicketName4", activityTicketClass4Name);
-                            activityDetailToticketSelectIntent.putExtra("TicketPrice4",activityTicketClass4Price);
-                            activityDetailToticketSelectIntent.putExtra("ActivityDocumentId", activityDocumentID);
-                            startActivity(activityDetailToticketSelectIntent);
+                                Intent activityDetailToticketSelectIntent = new Intent(ActivityDetailActivity.this, TicketSelectActivity.class);
+                                activityDetailToticketSelectIntent.putExtra("TicketInfo", "Class1Ticket");
+                                activityDetailToticketSelectIntent.putExtra("TicketName1", activityTicketClass1Name);
+                                activityDetailToticketSelectIntent.putExtra("TicketPrice1",activityTicketClass1Price);
+                                activityDetailToticketSelectIntent.putExtra("ActivityDocumentId", selectActivityDocumentID);
+                                activityDetailToticketSelectIntent.putExtra("selectActivityName", selectActivityName);
+                                activityDetailToticketSelectIntent.putExtra("selectActivityImageURL",selectActivityImgUrl);
+                                activityDetailToticketSelectIntent.putExtra("selectActivityTimeString",selectActivitTimeString);
+                                activityDetailToticketSelectIntent.putExtra("ticketSerialNumber",ticketSerialnumber);
+                                startActivity(activityDetailToticketSelectIntent);
 
-                }
+
+                            } else if  (activityTicketInfo.equals("5")) {
+
+                                Intent activityDetailToticketSelectIntent = new Intent(ActivityDetailActivity.this, TicketSelectActivity.class);
+                                activityDetailToticketSelectIntent.putExtra("TicketInfo", "Class2Ticket");
+                                activityDetailToticketSelectIntent.putExtra("TicketName1", activityTicketClass1Name);
+                                activityDetailToticketSelectIntent.putExtra("TicketPrice1",activityTicketClass1Price);
+                                activityDetailToticketSelectIntent.putExtra("TicketName2", activityTicketClass2Name);
+                                activityDetailToticketSelectIntent.putExtra("TicketPrice2",activityTicketClass2Price);
+                                activityDetailToticketSelectIntent.putExtra("ActivityDocumentId", selectActivityDocumentID);
+                                activityDetailToticketSelectIntent.putExtra("selectActivityName", selectActivityName);
+                                activityDetailToticketSelectIntent.putExtra("selectActivityImageURL",selectActivityImgUrl);
+                                activityDetailToticketSelectIntent.putExtra("selectActivityTimeString",selectActivitTimeString);
+                                activityDetailToticketSelectIntent.putExtra("ticketSerialNumber",ticketSerialnumber);
+                                startActivity(activityDetailToticketSelectIntent);
+
+
+                            } else if  (activityTicketInfo.equals("6")) {
+
+                                Intent activityDetailToticketSelectIntent = new Intent(ActivityDetailActivity.this, TicketSelectActivity.class);
+                                activityDetailToticketSelectIntent.putExtra("TicketInfo", "Class3Ticket");
+                                activityDetailToticketSelectIntent.putExtra("TicketName1", activityTicketClass1Name);
+                                activityDetailToticketSelectIntent.putExtra("TicketPrice1",activityTicketClass1Price);
+                                activityDetailToticketSelectIntent.putExtra("TicketName2", activityTicketClass2Name);
+                                activityDetailToticketSelectIntent.putExtra("TicketPrice2",activityTicketClass2Price);
+                                activityDetailToticketSelectIntent.putExtra("TicketName3", activityTicketClass3Name);
+                                activityDetailToticketSelectIntent.putExtra("TicketPrice3",activityTicketClass3Price);
+                                activityDetailToticketSelectIntent.putExtra("ActivityDocumentId", selectActivityDocumentID);
+                                activityDetailToticketSelectIntent.putExtra("selectActivityName", selectActivityName);
+                                activityDetailToticketSelectIntent.putExtra("selectActivityImageURL",selectActivityImgUrl);
+                                activityDetailToticketSelectIntent.putExtra("selectActivityTimeString",selectActivitTimeString);
+                                activityDetailToticketSelectIntent.putExtra("ticketSerialNumber",ticketSerialnumber);
+                                startActivity(activityDetailToticketSelectIntent);
+
+
+                            } else if  (activityTicketInfo.equals("7")) {
+
+                                Intent activityDetailToticketSelectIntent = new Intent(ActivityDetailActivity.this, TicketSelectActivity.class);
+                                activityDetailToticketSelectIntent.putExtra("TicketInfo", "Class4Ticket");
+                                activityDetailToticketSelectIntent.putExtra("TicketName1", activityTicketClass1Name);
+                                activityDetailToticketSelectIntent.putExtra("TicketPrice1",activityTicketClass1Price);
+                                activityDetailToticketSelectIntent.putExtra("TicketName2", activityTicketClass2Name);
+                                activityDetailToticketSelectIntent.putExtra("TicketPrice2",activityTicketClass2Price);
+                                activityDetailToticketSelectIntent.putExtra("TicketName3", activityTicketClass3Name);
+                                activityDetailToticketSelectIntent.putExtra("TicketPrice3",activityTicketClass3Price);
+                                activityDetailToticketSelectIntent.putExtra("TicketName4", activityTicketClass4Name);
+                                activityDetailToticketSelectIntent.putExtra("TicketPrice4",activityTicketClass4Price);
+                                activityDetailToticketSelectIntent.putExtra("ActivityDocumentId", selectActivityDocumentID);
+                                activityDetailToticketSelectIntent.putExtra("selectActivityName", selectActivityName);
+                                activityDetailToticketSelectIntent.putExtra("selectActivityImageURL",selectActivityImgUrl);
+                                activityDetailToticketSelectIntent.putExtra("selectActivityTimeString",selectActivitTimeString);
+                                activityDetailToticketSelectIntent.putExtra("ticketSerialNumber",ticketSerialnumber);
+                                startActivity(activityDetailToticketSelectIntent);
+
+                            }
+
+
+
+                        } else {
+
+
+                            Toast.makeText(ActivityDetailActivity.this, "İnternet bağlantınızda bir problem olabilir! Lütfen daha sonra tekrar deneyin.", Toast.LENGTH_LONG).show();
+
+
+                        }
+
+
+
+
+                    }
+                });
+
+
 
             }
         });
@@ -217,7 +292,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
     public void getActivityDetail() {
 
-        firebaseFirestore.collection("Events").document(activityDocumentID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        firebaseFirestore.collection("Events").document(selectActivityDocumentID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
@@ -226,7 +301,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
 
-                        String activityName = (String) document.get("activityName");
+                        selectActivityName = (String) document.get("activityName");
                         String activityCategory = (String) document.get("activityCategory");
                         String activityLocation = (String) document.get("activityLocation");
 
@@ -235,8 +310,8 @@ public class ActivityDetailActivity extends AppCompatActivity {
                         Timestamp activityEndDateTimestamp = (Timestamp) document.get("activityEndDate");
                         String activityDescription = (String) document.get("activityDescription");
 
-                        String activityImgUrl1 = (String) document.get("activityImgUrl1");
-                        String activityImgUrl2 = (String) document.get("activityImgUrl2");
+                        String activityImgUrl1 = (String) document.get("activityImgUr1");
+                        selectActivityImgUrl= (String) document.get("activityImgUr2");
 
                         String activityLocationAdressDetail = (String) document.get("activityLocationAdressDetail");
                         Double activityLocationLatitude = (Double) document.get("activityLocationLatitude");
@@ -303,8 +378,8 @@ public class ActivityDetailActivity extends AppCompatActivity {
                         }
 
 
-                        Picasso.get().load(activityImgUrl2).into(binding.activityImageView);
-                        binding.activityTitleTextView.setText(activityName);
+                        Picasso.get().load(selectActivityImgUrl).into(binding.activityImageView);
+                        binding.activityTitleTextView.setText(selectActivityName);
                         binding.activityLocationTextView.setText(activityLocation);
                         binding.activityCategoryTextView.setText(activityCategory);
 
@@ -323,15 +398,18 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
 
                             int dayInt = cal.get(Calendar.DAY_OF_MONTH);
-                            String month = new SimpleDateFormat("MMM").format(cal.getTime());
+                            String month = new SimpleDateFormat("MMMM").format(cal.getTime());
                             String day = new SimpleDateFormat("EEEE").format(cal.getTime());
                             String time = new SimpleDateFormat("HH:mm").format(cal.getTime());
+
 
                             binding.activitDateDayNumberTextView.setText(String.valueOf(dayInt));
                             binding.activityDateMonthTextView.setText(month);
                             binding.activiyDateDayTextview.setText(day);
+                            binding.activityTimeTextView.setText(time);
 
-
+                            selectActivitTimeString = (String.valueOf(dayInt)) + " " + month + " \n" + day + " " + time;
+                            activityDateTimestampPublic = activityDateTimestamp;
 
                             binding.secondMonthAndDayLinear.setVisibility(View.INVISIBLE);
                             binding.secondMonthAndDayLinear.getLayoutParams().width = 0;
@@ -362,6 +440,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
                             binding.activiyDateDayTextview.setText(day);
 
                             Date activityEndDate = activityEndDateTimestamp.toDate();
+
 
                             Calendar endCal = Calendar.getInstance();
                             endCal.setTime(activityEndDate);

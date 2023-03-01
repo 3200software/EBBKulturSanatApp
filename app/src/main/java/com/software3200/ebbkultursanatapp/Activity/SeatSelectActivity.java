@@ -26,8 +26,10 @@ import com.software3200.ebbkultursanatapp.Model.ModelSeatSelect;
 import com.software3200.ebbkultursanatapp.Model.ModelUserSelectSeats;
 import com.software3200.ebbkultursanatapp.R;
 import com.software3200.ebbkultursanatapp.databinding.ActivitySeatSelectBinding;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class SeatSelectActivity extends AppCompatActivity {
@@ -43,8 +45,12 @@ public class SeatSelectActivity extends AppCompatActivity {
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth firebaseAuth;
 
-    String activityDocumentID;
-    String currentUserEmail;
+    String selectActivityDocumentID;
+    String selectActivityName;
+    String selectActivityImgUrl;
+    String selectActivitTimeString;
+
+    String ticketSerialnumber;
 
 
 
@@ -69,10 +75,15 @@ public class SeatSelectActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         Intent activityTicketSelectToSeatSelectIntent = getIntent();
-        activityDocumentID = activityTicketSelectToSeatSelectIntent.getStringExtra("ActivityDocumentId");
+        selectActivityDocumentID = activityTicketSelectToSeatSelectIntent.getStringExtra("ActivityDocumentId");
+        selectActivityName = activityTicketSelectToSeatSelectIntent.getStringExtra("selectActivityName");
+        selectActivityImgUrl = activityTicketSelectToSeatSelectIntent.getStringExtra("selectActivityImageURL");
+        selectActivitTimeString = activityTicketSelectToSeatSelectIntent.getStringExtra("selectActivityTimeString");
+        ticketSerialnumber = activityTicketSelectToSeatSelectIntent.getStringExtra("ticketSerialnumber");
 
-
-
+        Picasso.get().load(selectActivityImgUrl).into(binding.activityImageView);
+        binding.activityTitleTextview.setText(selectActivityName);
+        binding.activityTimeTextview.setText(selectActivitTimeString);
 
 
         modelSeatSelectArrayList = new ArrayList<>();
@@ -94,7 +105,9 @@ public class SeatSelectActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                Intent paymentIntent = new Intent(SeatSelectActivity.this, PaymentActivity.class);
+
+
+                Intent paymentIntent = new Intent(SeatSelectActivity.this, TicketPreviewActivity.class);
                 paymentIntent.putExtra("UserSelectSeatsArray",modelUserSelectSeatsArrayList);
                 startActivity(paymentIntent);
 
@@ -207,9 +220,9 @@ public class SeatSelectActivity extends AppCompatActivity {
 
     public void getSeatInfo() {
 
-        SeatDocumentIdModel seatDocumentIdModel = new SeatDocumentIdModel(activityDocumentID);
+        SeatDocumentIdModel seatDocumentIdModel = new SeatDocumentIdModel(selectActivityDocumentID);
 
-        firebaseFirestore.collection("Events").document(activityDocumentID).collection("Saloon").orderBy("seatBox", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        firebaseFirestore.collection("Events").document(selectActivityDocumentID).collection("Saloon").orderBy("seatBox", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
 
@@ -246,7 +259,7 @@ public class SeatSelectActivity extends AppCompatActivity {
 
 
 
-                        ModelSeatSelect modelSeatSelect = new ModelSeatSelect(seatBox,seatName,seatStatus,userName,userEmail,userTcNo,reservationUser,reservationTimeStamp,documentId,activityDocumentID);
+                        ModelSeatSelect modelSeatSelect = new ModelSeatSelect(seatBox,seatName,seatStatus,userName,userEmail,userTcNo,reservationUser,reservationTimeStamp,documentId,selectActivityDocumentID,ticketSerialnumber);
                         modelSeatSelectArrayList.add(modelSeatSelect);
 
 
