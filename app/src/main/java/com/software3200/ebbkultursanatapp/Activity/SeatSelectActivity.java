@@ -107,6 +107,7 @@ public class SeatSelectActivity extends AppCompatActivity {
 
 
 
+
                 Intent paymentIntent = new Intent(SeatSelectActivity.this, TicketPreviewActivity.class);
                 paymentIntent.putExtra("UserSelectSeatsArray",modelUserSelectSeatsArrayList);
                 startActivity(paymentIntent);

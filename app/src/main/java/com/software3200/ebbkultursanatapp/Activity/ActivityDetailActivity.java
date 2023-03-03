@@ -74,6 +74,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
 
         Intent intent = getIntent();
         selectActivityDocumentID = intent.getStringExtra("ActivityDocumentId");
@@ -111,9 +112,9 @@ public class ActivityDetailActivity extends AppCompatActivity {
                 ticketInfo.put("ticketDate", activityDateTimestampPublic);
 
 
-                firebaseFirestore.collection("Users").document(firebaseAuth.getCurrentUser().getEmail()).collection("Tickets").add(ticketInfo).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                firebaseFirestore.collection("Users").document(firebaseAuth.getCurrentUser().getEmail()).collection("Tickets").document(ticketSerialnumber).set(ticketInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                    public void onComplete(@NonNull Task<Void> task) {
 
                         if (task.isSuccessful()) {
 
@@ -241,7 +242,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
 
             }
-        });
+                });
 
 
 
@@ -310,8 +311,8 @@ public class ActivityDetailActivity extends AppCompatActivity {
                         Timestamp activityEndDateTimestamp = (Timestamp) document.get("activityEndDate");
                         String activityDescription = (String) document.get("activityDescription");
 
-                        String activityImgUrl1 = (String) document.get("activityImgUr1");
-                        selectActivityImgUrl= (String) document.get("activityImgUr2");
+                        String activityImgUrl1 = (String) document.get("activityImgUrl1");
+                        selectActivityImgUrl= (String) document.get("activityImgUrl2");
 
                         String activityLocationAdressDetail = (String) document.get("activityLocationAdressDetail");
                         Double activityLocationLatitude = (Double) document.get("activityLocationLatitude");

@@ -10,31 +10,40 @@ import static com.software3200.ebbkultursanatapp.R.drawable.seat_select_;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.software3200.ebbkultursanatapp.Model.ModelSeatSelect;
 import com.software3200.ebbkultursanatapp.Model.ModelUserSelectSeats;
 import com.software3200.ebbkultursanatapp.databinding.RecyclerRowSeatSelectBinding;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class AdapterSeatSelect extends RecyclerView.Adapter<AdapterSeatSelect.SeatSelectHolder> {
 
     FirebaseFirestore firebaseFirestore;
 
     Integer totalTicketPiece;
+
+    ArrayList<String> userAnotherticketsArray;
+
 
 
     ArrayList<ModelSeatSelect> modelSeatSelectArrayList;
@@ -143,98 +152,147 @@ public class AdapterSeatSelect extends RecyclerView.Adapter<AdapterSeatSelect.Se
             @Override
             public void onClick(View view) {
 
+                userAnotherticketsArray = new ArrayList<>();
 
-
-                firebaseFirestore.collection("Users").document(firebaseAuth.getCurrentUser().getEmail()).collection("Tickets").document(modelSeatSelectArrayList.get(position).ticketSerialnumber).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                firebaseFirestore.collection("Events").document(modelSeatSelectArrayList.get(position).parrentDocumentId).collection("Saloon").whereEqualTo("reservationUser",firebaseAuth.getCurrentUser().getEmail()).whereEqualTo("seatStatus",2).addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
 
-                        if(task.isSuccessful()){
+                        if (error != null) {
 
-                            DocumentSnapshot document = task.getResult();
-
-                            if (document.exists()) {
-
-                                Long totalTicketPieceLong = (Long) document.get("totalTicketPiece");
-
-                                totalTicketPiece = totalTicketPieceLong.intValue();
-
-                            } else {
-
-                                Toast.makeText(view.getContext(),"İnternet bağlantısında bir sorun var! Lütfen internet bağlantınızı kontrol edin.",Toast.LENGTH_LONG).show();
-
-                            }
-
-
-
+                            Toast.makeText(view.getContext(),"İnternet bağlantısında bir sorun var! Lütfen internet bağlantınızı kontrol edin.",Toast.LENGTH_LONG).show();
 
                         }
 
+                        if (value != null) {
+
+                            userAnotherticketsArray.clear();
+
+                            for (DocumentSnapshot snapshot : value.getDocuments()) {
+
+                                Map<String , Object> data = snapshot.getData();
+
+                                String userEmail = (String) data.get("reservationUser");
+
+                                userAnotherticketsArray.add("heyyss" + userEmail);
+
+
+                            }
+
+                            System.out.println("heyy" + userAnotherticketsArray.size());
+                            firebaseFirestore.collection("Users").document(firebaseAuth.getCurrentUser().getEmail()).collection("Tickets").document(modelSeatSelectArrayList.get(position).ticketSerialnumber).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                                    if(task.isSuccessful()){
+
+                                        DocumentSnapshot document = task.getResult();
+
+                                        if (document.exists()) {
+
+                                            Double ticketPieceLong = (Double) document.get("totalTicketPiece");
+
+                                            totalTicketPiece = ticketPieceLong.intValue();
+
+
+                                            if (userAnotherticketsArray.size() <= totalTicketPiece) {
+
+                                                System.out.println("hh" + userAnotherticketsArray.size() + totalTicketPiece);
+
+                                                if (seatStatus == 0){
+
+                                                    HashMap<String,Object> updateSeatEmpty = new HashMap<>();
+                                                    updateSeatEmpty.put("seatStatus",2);
+                                                    updateSeatEmpty.put("reservationUser",firebaseAuth.getCurrentUser().getEmail());
+
+                                                    holder.recyclerRowSeatSelectBinding.seatSelectButton.setBackgroundResource(seat_select_);
+
+                                                    firebaseFirestore.collection("Events").document(modelSeatSelectArrayList.get(position).parrentDocumentId).collection("Saloon").document(modelSeatSelectArrayList.get(position).documentId).update(updateSeatEmpty);
+
+
+
+                                                } else if (seatStatus == 2) {
+
+
+                                                    if (modelSeatSelectArrayList.get(position).reservationUser.equals(firebaseAuth.getCurrentUser().getEmail())){
+
+                                                        holder.recyclerRowSeatSelectBinding.seatSelectButton.setBackgroundResource(seat_border_back_empty);
+
+                                                        HashMap<String,Object> updateSeatEmpty = new HashMap<>();
+                                                        updateSeatEmpty.put("seatStatus",0);
+                                                        updateSeatEmpty.put("reservationUser","");
+
+                                                        firebaseFirestore.collection("Events").document(modelSeatSelectArrayList.get(position).parrentDocumentId).collection("Saloon").document(modelSeatSelectArrayList.get(position).documentId).update(updateSeatEmpty);
+
+
+
+
+
+
+                                                    } else {
+
+
+                                                        Toast.makeText(view.getContext(), "Koltuk başka sepette!", Toast.LENGTH_SHORT).show();
+
+
+                                                    }
+
+
+
+
+
+                                                } else if  (seatStatus == 3) {
+
+
+
+
+                                                } else if (seatStatus == 4) {
+
+                                                    holder.recyclerRowSeatSelectBinding.seatSelectButton.setBackgroundResource(seat_select_);
+                                                    holder.recyclerRowSeatSelectBinding.seatSelectButton.setEnabled(false);
+
+                                                } else if (seatStatus == 5) {
+
+                                                    holder.recyclerRowSeatSelectBinding.seatSelectButton.setEnabled(false);
+
+                                                }
+
+
+
+
+                                            } else {
+
+
+                                                Toast.makeText(view.getContext(), "Sadece " + totalTicketPiece +"koltuk seçebilirsiniz!", Toast.LENGTH_SHORT).show();
+
+
+
+
+                                            }
+
+                                        } else {
+
+                                            Toast.makeText(view.getContext(),"İnternet bağlantısında bir sorun var! Lütfen internet bağlantınızı kontrol edin.",Toast.LENGTH_LONG).show();
+
+                                        }
+
+
+
+
+                                    }
+
+                                }
+                            });
+
+                        }
                     }
                 });
 
 
-                if (seatStatus == 0){
-
-                    HashMap<String,Object> updateSeatEmpty = new HashMap<>();
-                    updateSeatEmpty.put("seatStatus",2);
-                    updateSeatEmpty.put("reservationUser",firebaseAuth.getCurrentUser().getEmail());
-
-                    holder.recyclerRowSeatSelectBinding.seatSelectButton.setBackgroundResource(seat_select_);
-
-                    firebaseFirestore.collection("Events").document(modelSeatSelectArrayList.get(position).parrentDocumentId).collection("Saloon").document(modelSeatSelectArrayList.get(position).documentId).update(updateSeatEmpty);
-
-                    notifyDataSetChanged();
 
 
 
 
-
-                } else if (seatStatus == 2) {
-
-
-                    if (modelSeatSelectArrayList.get(position).reservationUser.equals(firebaseAuth.getCurrentUser().getEmail())){
-
-                        holder.recyclerRowSeatSelectBinding.seatSelectButton.setBackgroundResource(seat_border_back_empty);
-
-                        HashMap<String,Object> updateSeatEmpty = new HashMap<>();
-                        updateSeatEmpty.put("seatStatus",0);
-                        updateSeatEmpty.put("reservationUser","");
-
-                        firebaseFirestore.collection("Events").document(modelSeatSelectArrayList.get(position).parrentDocumentId).collection("Saloon").document(modelSeatSelectArrayList.get(position).documentId).update(updateSeatEmpty);
-
-                        notifyDataSetChanged();
-
-
-
-
-                    } else {
-
-
-                        Toast.makeText(view.getContext(), "Koltuk başka sepette!", Toast.LENGTH_SHORT).show();
-
-
-                    }
-
-
-                    notifyDataSetChanged();
-
-
-                } else if  (seatStatus == 3) {
-
-
-
-
-                } else if (seatStatus == 4) {
-
-                    holder.recyclerRowSeatSelectBinding.seatSelectButton.setBackgroundResource(seat_select_);
-                    holder.recyclerRowSeatSelectBinding.seatSelectButton.setEnabled(false);
-
-                } else if (seatStatus == 5) {
-
-                    holder.recyclerRowSeatSelectBinding.seatSelectButton.setEnabled(false);
-
-                }
 
 
 

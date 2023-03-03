@@ -46,7 +46,7 @@ public class HomeFragment extends Fragment {
 
         modelHomeBannerArrayList = new ArrayList<>();
         getHomeBanner();
-        LinearLayoutManager linearLayoutHomeBanner = new LinearLayoutManager(requireActivity());
+        LinearLayoutManager linearLayoutHomeBanner = new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL,false);
         binding.homeBannerRecyclerView.setLayoutManager(linearLayoutHomeBanner);
         adapterHomeBanner = new AdapterHomeBanner(modelHomeBannerArrayList);
         binding.homeBannerRecyclerView.setAdapter(adapterHomeBanner);

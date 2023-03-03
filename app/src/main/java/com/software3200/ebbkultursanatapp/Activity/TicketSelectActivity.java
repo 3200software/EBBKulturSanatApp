@@ -229,7 +229,6 @@ public class TicketSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                totalTicketPiece = ticketClass1Piece + ticketClass2Piece + ticketClass3Piece + ticketClass4Piece;
 
                 if (totalTicketPiece >= 9) {
 
@@ -238,9 +237,13 @@ public class TicketSelectActivity extends AppCompatActivity {
 
                 } else {
 
+
+
                     ticketClass1Piece = ticketClass1Piece + 1.0;
+                    totalTicketPiece = ticketClass1Piece + ticketClass2Piece + ticketClass3Piece + ticketClass4Piece;
                     Integer pieceInt = ticketClass1Piece.intValue();
                     binding.ticketSelect1NumberTextview.setText(String.valueOf(pieceInt));
+                    System.out.println("heyy" + totalTicketPiece);
 
                     Double class1Price = ticketClass1Piece * class1TicketPrice;
                     Double class2Price = ticketClass2Piece * class2TicketPrice;
@@ -261,18 +264,19 @@ public class TicketSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                totalTicketPiece = ticketClass1Piece + ticketClass2Piece + ticketClass3Piece + ticketClass4Piece;
 
-                if (totalTicketPiece == 0) {
+
+                if (totalTicketPiece == 0.0) {
 
 
 
                 } else {
 
                     ticketClass1Piece = ticketClass1Piece - 1.0;
+                    totalTicketPiece = ticketClass1Piece + ticketClass2Piece + ticketClass3Piece + ticketClass4Piece;
                     Integer pieceInt = ticketClass1Piece.intValue();
                     binding.ticketSelect1NumberTextview.setText(String.valueOf(pieceInt));
-
+                    System.out.println("heyy" + totalTicketPiece);
                     Double class1Price = ticketClass1Piece * class1TicketPrice;
                     Double class2Price = ticketClass2Piece * class2TicketPrice;
                     Double class3Price = ticketClass3Piece * class3TicketPrice;
@@ -295,7 +299,7 @@ public class TicketSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                totalTicketPiece = ticketClass1Piece + ticketClass2Piece + ticketClass3Piece + ticketClass4Piece;
+
 
                 if (totalTicketPiece >= 9) {
 
@@ -305,6 +309,7 @@ public class TicketSelectActivity extends AppCompatActivity {
                 } else {
 
                     ticketClass2Piece = ticketClass2Piece + 1.0;
+                    totalTicketPiece = ticketClass1Piece + ticketClass2Piece + ticketClass3Piece + ticketClass4Piece;
                     Integer pieceInt = ticketClass2Piece.intValue();
                     binding.ticketSelect2NumberTextview.setText(String.valueOf(pieceInt));
 
@@ -329,7 +334,7 @@ public class TicketSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                totalTicketPiece = ticketClass1Piece + ticketClass2Piece + ticketClass3Piece + ticketClass4Piece;
+
 
                 if (totalTicketPiece == 0) {
 
@@ -338,6 +343,7 @@ public class TicketSelectActivity extends AppCompatActivity {
                 } else {
 
                     ticketClass2Piece = ticketClass2Piece - 1.0;
+                    totalTicketPiece = ticketClass1Piece + ticketClass2Piece + ticketClass3Piece + ticketClass4Piece;
                     Integer pieceInt = ticketClass2Piece.intValue();
                     binding.ticketSelect2NumberTextview.setText(String.valueOf(pieceInt));
 
@@ -363,7 +369,7 @@ public class TicketSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                totalTicketPiece = ticketClass1Piece + ticketClass2Piece + ticketClass3Piece + ticketClass4Piece;
+
 
                 if (totalTicketPiece >= 9) {
 
@@ -373,6 +379,7 @@ public class TicketSelectActivity extends AppCompatActivity {
                 } else {
 
                     ticketClass3Piece = ticketClass3Piece + 1.0;
+                    totalTicketPiece = ticketClass1Piece + ticketClass2Piece + ticketClass3Piece + ticketClass4Piece;
                     Integer pieceInt = ticketClass3Piece.intValue();
                     binding.ticketSelect3NumberTextview.setText(String.valueOf(pieceInt));
 
@@ -395,7 +402,7 @@ public class TicketSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                totalTicketPiece = ticketClass1Piece + ticketClass2Piece + ticketClass3Piece + ticketClass4Piece;
+
 
                 if (totalTicketPiece == 0) {
 
@@ -404,6 +411,7 @@ public class TicketSelectActivity extends AppCompatActivity {
                 } else {
 
                     ticketClass3Piece = ticketClass3Piece - 1.0;
+                    totalTicketPiece = ticketClass1Piece + ticketClass2Piece + ticketClass3Piece + ticketClass4Piece;
                     Integer pieceInt = ticketClass3Piece.intValue();
                     binding.ticketSelect3NumberTextview.setText(String.valueOf(pieceInt));
 
@@ -429,7 +437,7 @@ public class TicketSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                totalTicketPiece = ticketClass1Piece + ticketClass2Piece + ticketClass3Piece + ticketClass4Piece;
+
 
                 if (totalTicketPiece >= 9) {
 
@@ -439,6 +447,7 @@ public class TicketSelectActivity extends AppCompatActivity {
                 } else {
 
                     ticketClass4Piece = ticketClass4Piece + 1.0;
+                    totalTicketPiece = ticketClass1Piece + ticketClass2Piece + ticketClass3Piece + ticketClass4Piece;
                     Integer pieceInt = ticketClass4Piece.intValue();
                     binding.ticketSelect4NumberTextview.setText(String.valueOf(pieceInt));
 
@@ -461,7 +470,7 @@ public class TicketSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                totalTicketPiece = ticketClass1Piece + ticketClass2Piece + ticketClass3Piece + ticketClass4Piece;
+
 
                 if (totalTicketPiece == 0) {
 
@@ -470,6 +479,7 @@ public class TicketSelectActivity extends AppCompatActivity {
                 } else {
 
                     ticketClass4Piece = ticketClass4Piece - 1.0;
+                    totalTicketPiece = ticketClass1Piece + ticketClass2Piece + ticketClass3Piece + ticketClass4Piece;
                     Integer pieceInt = ticketClass4Piece.intValue();
                     binding.ticketSelect4NumberTextview.setText(String.valueOf(pieceInt));
 
@@ -497,51 +507,53 @@ public class TicketSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                System.out.println("heyy" + totalTicketPiece + totalTicketPrice);
 
-                HashMap<String, Object> ticketInfo = new HashMap<>();
-                ticketInfo.put("totalTicketPiece",totalTicketPiece);
-                ticketInfo.put("totalTicketPrice", totalTicketPrice);
-
+                if (totalTicketPiece == 0) {
 
 
+                    Toast.makeText(TicketSelectActivity.this,"Lütfen bilet adedi seçiniz.", Toast.LENGTH_SHORT).show();
 
-                firebaseFirestore.collection("Users").document(firebaseAuth.getCurrentUser().getEmail()).collection("Tickets").document(ticketSerialnumber).update(ticketInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
+                } else {
 
-                       if (task.isSuccessful()) {
+                    HashMap<String, Object> ticketInfo = new HashMap<>();
+                    ticketInfo.put("totalTicketPiece", totalTicketPiece);
+                    ticketInfo.put("totalTicketPrice", totalTicketPrice);
 
+                    firebaseFirestore.collection("Users").document(firebaseAuth.getCurrentUser().getEmail()).collection("Tickets").document(ticketSerialnumber).update(ticketInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
 
-                           Intent ticketToSeatIntent = new Intent(TicketSelectActivity.this, SeatSelectActivity.class);
-                           ticketToSeatIntent.putExtra("TicketPiece",totalTicketPiece);
-                           ticketToSeatIntent.putExtra("TicketTotalPrice",totalTicketPrice);
-                           ticketToSeatIntent.putExtra("ActivityDocumentId",selectActivityDocumentID);
-                           ticketToSeatIntent.putExtra("selectActivityName", selectActivityName);
-                           ticketToSeatIntent.putExtra("selectActivityImageURL",selectActivityImgUrl);
-                           ticketToSeatIntent.putExtra("selectActivityTimeString",selectActivitTimeString);
-                           ticketToSeatIntent.putExtra("ticketSerialnumber",ticketSerialnumber);
+                            if (task.isSuccessful()) {
 
 
-                           startActivity(ticketToSeatIntent);
+                                Intent ticketToSeatIntent = new Intent(TicketSelectActivity.this, SeatSelectActivity.class);
+                                ticketToSeatIntent.putExtra("TicketPiece", totalTicketPiece);
+                                ticketToSeatIntent.putExtra("TicketTotalPrice", totalTicketPrice);
+                                ticketToSeatIntent.putExtra("ActivityDocumentId", selectActivityDocumentID);
+                                ticketToSeatIntent.putExtra("selectActivityName", selectActivityName);
+                                ticketToSeatIntent.putExtra("selectActivityImageURL", selectActivityImgUrl);
+                                ticketToSeatIntent.putExtra("selectActivityTimeString", selectActivitTimeString);
+                                ticketToSeatIntent.putExtra("ticketSerialnumber", ticketSerialnumber);
 
 
-
-                       } else {
-
-
-                           Toast.makeText(TicketSelectActivity.this, "İnternet bağlantınızda bir problem olabilir! Lütfen daha sonra tekrar deneyin.", Toast.LENGTH_LONG).show();
+                                startActivity(ticketToSeatIntent);
 
 
-                       }
+                            } else {
 
 
-
-                    }
-                });
+                                Toast.makeText(TicketSelectActivity.this, "İnternet bağlantınızda bir problem olabilir! Lütfen daha sonra tekrar deneyin.", Toast.LENGTH_LONG).show();
 
 
+                            }
 
 
+                        }
+                    });
+
+
+                }
 
 
 
@@ -551,6 +563,7 @@ public class TicketSelectActivity extends AppCompatActivity {
 
             }
         });
+
 
 
 
