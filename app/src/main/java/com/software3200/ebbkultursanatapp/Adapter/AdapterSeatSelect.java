@@ -152,141 +152,153 @@ public class AdapterSeatSelect extends RecyclerView.Adapter<AdapterSeatSelect.Se
             @Override
             public void onClick(View view) {
 
-                userAnotherticketsArray = new ArrayList<>();
 
-                firebaseFirestore.collection("Events").document(modelSeatSelectArrayList.get(position).parrentDocumentId).collection("Saloon").whereEqualTo("reservationUser",firebaseAuth.getCurrentUser().getEmail()).whereEqualTo("seatStatus",2).addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
 
-                        if (error != null) {
+                if (seatStatus == 0 && modelSeatSelectArrayList.get(position).reservationUser.equals("")) {
 
-                            Toast.makeText(view.getContext(),"İnternet bağlantısında bir sorun var! Lütfen internet bağlantınızı kontrol edin.",Toast.LENGTH_LONG).show();
 
-                        }
+                    userAnotherticketsArray = new ArrayList<>();
 
-                        if (value != null) {
+                    firebaseFirestore.collection("Events").document(modelSeatSelectArrayList.get(position).parrentDocumentId).collection("Saloon").whereEqualTo("reservationUser", firebaseAuth.getCurrentUser().getEmail()).whereEqualTo("seatStatus", 2).addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
 
-                            userAnotherticketsArray.clear();
+                            if (error != null) {
 
-                            for (DocumentSnapshot snapshot : value.getDocuments()) {
-
-                                Map<String , Object> data = snapshot.getData();
-
-                                String userEmail = (String) data.get("reservationUser");
-
-                                userAnotherticketsArray.add("heyyss" + userEmail);
-
+                                Toast.makeText(view.getContext(), "İnternet bağlantısında bir sorun var! Lütfen internet bağlantınızı kontrol edin.", Toast.LENGTH_LONG).show();
 
                             }
 
-                            System.out.println("heyy" + userAnotherticketsArray.size());
-                            firebaseFirestore.collection("Users").document(firebaseAuth.getCurrentUser().getEmail()).collection("Tickets").document(modelSeatSelectArrayList.get(position).ticketSerialnumber).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (value != null) {
 
-                                    if(task.isSuccessful()){
+                                userAnotherticketsArray.clear();
 
-                                        DocumentSnapshot document = task.getResult();
+                                for (DocumentSnapshot snapshot : value.getDocuments()) {
 
-                                        if (document.exists()) {
+                                    Map<String, Object> data = snapshot.getData();
 
-                                            Double ticketPieceLong = (Double) document.get("totalTicketPiece");
+                                    String userEmail = (String) data.get("reservationUser");
 
-                                            totalTicketPiece = ticketPieceLong.intValue();
+                                    userAnotherticketsArray.add(userEmail);
+
+                                    System.out.println("heyy" + userAnotherticketsArray + userAnotherticketsArray.size());
 
 
-                                            if (userAnotherticketsArray.size() <= totalTicketPiece) {
+                                }
 
-                                                System.out.println("hh" + userAnotherticketsArray.size() + totalTicketPiece);
+                      }
+                        }
+                    });
 
-                                                if (seatStatus == 0){
 
-                                                    HashMap<String,Object> updateSeatEmpty = new HashMap<>();
-                                                    updateSeatEmpty.put("seatStatus",2);
-                                                    updateSeatEmpty.put("reservationUser",firebaseAuth.getCurrentUser().getEmail());
+                    firebaseFirestore.collection("Users").document(firebaseAuth.getCurrentUser().getEmail()).collection("Tickets").document(modelSeatSelectArrayList.get(position).ticketSerialnumber).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                            if (task.isSuccessful()) {
+
+                                DocumentSnapshot document = task.getResult();
+
+                                if (document.exists()) {
+
+                                    Double ticketPieceLong = (Double) document.get("totalTicketPiece");
+
+                                    totalTicketPiece = ticketPieceLong.intValue();
+
+                                    if (userAnotherticketsArray.size() > totalTicketPiece) {
+
+                                        Toast.makeText(view.getContext(), "Sadece " + totalTicketPiece + " koltuk seçebilirsiniz!", Toast.LENGTH_SHORT).show();
+
+
+                                    } else {
+
+
+                                        HashMap<String, Object> updateSeatEmpty = new HashMap<>();
+                                        updateSeatEmpty.put("seatStatus", 2);
+                                        updateSeatEmpty.put("reservationUser", firebaseAuth.getCurrentUser().getEmail());
+
+                                        firebaseFirestore.collection("Events").document(modelSeatSelectArrayList.get(position).parrentDocumentId).collection("Saloon").document(modelSeatSelectArrayList.get(position).documentId).update(updateSeatEmpty).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+
+                                                if(task.isSuccessful()) {
+
+
 
                                                     holder.recyclerRowSeatSelectBinding.seatSelectButton.setBackgroundResource(seat_select_);
-
-                                                    firebaseFirestore.collection("Events").document(modelSeatSelectArrayList.get(position).parrentDocumentId).collection("Saloon").document(modelSeatSelectArrayList.get(position).documentId).update(updateSeatEmpty);
-
-
-
-                                                } else if (seatStatus == 2) {
-
-
-                                                    if (modelSeatSelectArrayList.get(position).reservationUser.equals(firebaseAuth.getCurrentUser().getEmail())){
-
-                                                        holder.recyclerRowSeatSelectBinding.seatSelectButton.setBackgroundResource(seat_border_back_empty);
-
-                                                        HashMap<String,Object> updateSeatEmpty = new HashMap<>();
-                                                        updateSeatEmpty.put("seatStatus",0);
-                                                        updateSeatEmpty.put("reservationUser","");
-
-                                                        firebaseFirestore.collection("Events").document(modelSeatSelectArrayList.get(position).parrentDocumentId).collection("Saloon").document(modelSeatSelectArrayList.get(position).documentId).update(updateSeatEmpty);
-
-
-
-
-
-
-                                                    } else {
-
-
-                                                        Toast.makeText(view.getContext(), "Koltuk başka sepette!", Toast.LENGTH_SHORT).show();
-
-
-                                                    }
-
-
-
-
-
-                                                } else if  (seatStatus == 3) {
-
-
-
-
-                                                } else if (seatStatus == 4) {
-
-                                                    holder.recyclerRowSeatSelectBinding.seatSelectButton.setBackgroundResource(seat_select_);
-                                                    holder.recyclerRowSeatSelectBinding.seatSelectButton.setEnabled(false);
-
-                                                } else if (seatStatus == 5) {
-
-                                                    holder.recyclerRowSeatSelectBinding.seatSelectButton.setEnabled(false);
-
                                                 }
 
-
-
-
-                                            } else {
-
-
-                                                Toast.makeText(view.getContext(), "Sadece " + totalTicketPiece +"koltuk seçebilirsiniz!", Toast.LENGTH_SHORT).show();
-
-
-
-
                                             }
-
-                                        } else {
-
-                                            Toast.makeText(view.getContext(),"İnternet bağlantısında bir sorun var! Lütfen internet bağlantınızı kontrol edin.",Toast.LENGTH_LONG).show();
-
-                                        }
-
-
+                                        });
 
 
                                     }
 
+
+
+                                } else {
+
+                                    Toast.makeText(view.getContext(), "İnternet bağlantısında bir sorun var! Lütfen internet bağlantınızı kontrol edin.", Toast.LENGTH_LONG).show();
+
                                 }
-                            });
+
+
+                            }
 
                         }
+                    });
+
+
+
+
+
+
+                }
+
+
+
+
+
+
+                    if (seatStatus == 2 && modelSeatSelectArrayList.get(position).reservationUser.equals(firebaseAuth.getCurrentUser().getEmail())) {
+
+
+                        HashMap<String,Object> updateSeatEmpty = new HashMap<>();
+                        updateSeatEmpty.put("seatStatus",0);
+                        updateSeatEmpty.put("reservationUser","");
+
+                        firebaseFirestore.collection("Events").document(modelSeatSelectArrayList.get(position).parrentDocumentId).collection("Saloon").document(modelSeatSelectArrayList.get(position).documentId).update(updateSeatEmpty).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+
+                                if (task.isSuccessful()) {
+
+
+                                    holder.recyclerRowSeatSelectBinding.seatSelectButton.setBackgroundResource(seat_border_back_empty);
+
+                                }
+
+
+                            }
+                        });
+
+
+                       } else if (seatStatus == 2) {
+
+
+                        Toast.makeText(view.getContext(), "Koltuk başka sepette!", Toast.LENGTH_SHORT).show();
+
+
                     }
-                });
+
+
+
+                    notifyDataSetChanged();
+
+
+
+
+                }
 
 
 
@@ -294,9 +306,6 @@ public class AdapterSeatSelect extends RecyclerView.Adapter<AdapterSeatSelect.Se
 
 
 
-
-
-            }
         });
 
 

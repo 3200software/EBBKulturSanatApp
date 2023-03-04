@@ -1,8 +1,10 @@
 package com.software3200.ebbkultursanatapp.Activity;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -79,13 +81,17 @@ public class TicketSelectActivity extends AppCompatActivity {
         ticketSerialnumber =activityDetailToTicketSelectIntent.getStringExtra("ticketSerialNumber");
 
 
-        System.out.println("heyy" + selectActivityImgUrl + selectActivitTimeString);
+        System.out.println("heyy" + selectActivityImgUrl + selectActivitTimeString + selectActivityName);
 
 
 
         Picasso.get().load(selectActivityImgUrl).into(binding.activityImageView);
         binding.activityTitleTextview.setText(selectActivityName);
         binding.activityTimeTextview.setText(selectActivitTimeString);
+
+
+
+
 
 
         if (ticketInfo.equals("FreeTicket"))  {
@@ -507,7 +513,6 @@ public class TicketSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                System.out.println("heyy" + totalTicketPiece + totalTicketPrice);
 
                 if (totalTicketPiece == 0) {
 
@@ -568,8 +573,51 @@ public class TicketSelectActivity extends AppCompatActivity {
 
 
 
+
     }
 
+
+
+    @Override
+    public void onBackPressed(){
+
+        AlertDialog.Builder backAlert = new AlertDialog.Builder(TicketSelectActivity.this);
+        backAlert.setTitle("Uyarı");
+        backAlert.setMessage("Bilet Alma işleminiz iptel edilecek");
+        backAlert.setPositiveButton("Tamam", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                firebaseFirestore.collection("Users").document(firebaseAuth.getCurrentUser().getEmail()).collection("Tickets").document(ticketSerialnumber).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                        if (task.isSuccessful()) {
+
+
+                            Intent backIntent = new Intent(TicketSelectActivity.this, MainActivity.class);
+                            startActivity(backIntent);
+
+
+                        }
+
+
+                    }
+                });
+
+
+                    onBackPressed();
+
+            }
+        });
+
+        backAlert.setNegativeButton("Vazgeç",null);
+
+        backAlert.show();
+
+
+
+    }
 
 
 

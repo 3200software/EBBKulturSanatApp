@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.UUID;
 
 public class ActivityDetailActivity extends AppCompatActivity {
@@ -40,6 +41,8 @@ public class ActivityDetailActivity extends AppCompatActivity {
     String selectActivityImgUrl;
     String selectActivitTimeString;
     String ticketSerialnumber;
+
+    String activityLocation;
 
     Timestamp activityDateTimestampPublic;
 
@@ -96,14 +99,17 @@ public class ActivityDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                ticketSerialnumber = UUID.randomUUID().toString();
+                Random TicketSerial = new Random();
+                ticketSerialnumber = "EBB-" + TicketSerial.nextInt(100000000);
 
                 HashMap<String, Object> ticketInfo = new HashMap<>();
+
                 ticketInfo.put("ticketSerialNumber",ticketSerialnumber);
                 ticketInfo.put("totalTicketPiece",0);
                 ticketInfo.put("totalTicketPrice", 0.0);
                 ticketInfo.put("activityName",selectActivityName);
-                ticketInfo.put("activityTime",selectActivityName);
+                ticketInfo.put("activityTime",selectActivitTimeString);
+                ticketInfo.put("activitySaloon",activityLocation);
                 ticketInfo.put("ticketQrCode","");
                 ticketInfo.put("ticketQrImage","");
                 ticketInfo.put("ticketSeatName","");
@@ -150,6 +156,9 @@ public class ActivityDetailActivity extends AppCompatActivity {
                                 activityDetailToticketSelectIntent.putExtra("TicketAdultPrice", activityTicketClass1Price);
                                 activityDetailToticketSelectIntent.putExtra("TicketStudentPrice",activityTicketClass2Price);
                                 activityDetailToticketSelectIntent.putExtra("ActivityDocumentId", selectActivityDocumentID);
+                                activityDetailToticketSelectIntent.putExtra("selectActivityName", selectActivityName);
+                                activityDetailToticketSelectIntent.putExtra("selectActivityImageURL",selectActivityImgUrl);
+                                activityDetailToticketSelectIntent.putExtra("selectActivityTimeString",selectActivitTimeString);
                                 activityDetailToticketSelectIntent.putExtra("ticketSerialNumber",ticketSerialnumber);
                                 startActivity(activityDetailToticketSelectIntent);
 
@@ -304,7 +313,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
                         selectActivityName = (String) document.get("activityName");
                         String activityCategory = (String) document.get("activityCategory");
-                        String activityLocation = (String) document.get("activityLocation");
+                        activityLocation = (String) document.get("activityLocation");
 
                         Timestamp activityDateTimestamp = (Timestamp) document.get("activityDate");
                         Timestamp activityBeginDateTimeStamp = (Timestamp) document.get("activityBeginDate");

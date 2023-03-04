@@ -52,8 +52,6 @@ public class SeatSelectActivity extends AppCompatActivity {
 
     String ticketSerialnumber;
 
-
-
     private ScaleGestureDetector mScaleGestureDetector;
     private float mscaleFactor = 1.0f;
 
