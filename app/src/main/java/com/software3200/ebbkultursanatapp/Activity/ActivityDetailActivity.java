@@ -44,6 +44,8 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
     String activityLocation;
 
+    String nameSurname;
+
     Timestamp activityDateTimestampPublic;
 
 
@@ -65,6 +67,8 @@ public class ActivityDetailActivity extends AppCompatActivity {
     Long activityTicketClass4PriceLong;
     Double activityTicketClass4Price;
     String activityTicketClass4Name;
+
+
 
 
     @Override
@@ -92,6 +96,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
 
         getActivityDetail();
+        getUsers();
 
         System.out.println(activityTicketClass1Price);
 
@@ -100,7 +105,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Random TicketSerial = new Random();
-                ticketSerialnumber = "EBB-" + TicketSerial.nextInt(100000000);
+                ticketSerialnumber = "EBB-" + TicketSerial.nextInt(1000000000);
 
                 HashMap<String, Object> ticketInfo = new HashMap<>();
 
@@ -116,6 +121,9 @@ public class ActivityDetailActivity extends AppCompatActivity {
                 ticketInfo.put("ticketImgUrl",selectActivityImgUrl);
                 ticketInfo.put("ticketSuccess",false);
                 ticketInfo.put("ticketDate", activityDateTimestampPublic);
+                ticketInfo.put("nameSurname",nameSurname);
+                ticketInfo.put("ticketPriceString","");
+
 
 
                 firebaseFirestore.collection("Users").document(firebaseAuth.getCurrentUser().getEmail()).collection("Tickets").document(ticketSerialnumber).set(ticketInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -480,4 +488,36 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
     }
 
+    public void getUsers() {
+
+        firebaseFirestore.collection("Users").document(firebaseAuth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+
+                if (task.isSuccessful()) {
+
+                    DocumentSnapshot  document = task.getResult();
+
+                    String name = (String) document.get("name");
+                    String surname = (String) document.get("surname");
+
+                    nameSurname = name + " " + surname;
+
+                } else {
+
+
+                    Toast.makeText(ActivityDetailActivity.this, "İnternet bağlantısında bir problem var! Lütfen Daha sonra tekrar deneyin.", Toast.LENGTH_SHORT).show();
+
+
+                }
+
+
+
+            }
+        });
+
+
+
+    }
 }

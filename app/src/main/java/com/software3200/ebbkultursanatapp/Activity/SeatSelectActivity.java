@@ -102,13 +102,10 @@ public class SeatSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
-
-
-
-                Intent paymentIntent = new Intent(SeatSelectActivity.this, TicketPreviewActivity.class);
-                paymentIntent.putExtra("UserSelectSeatsArray",modelUserSelectSeatsArrayList);
-                startActivity(paymentIntent);
+                Intent ticketPreviewIntent = new Intent(SeatSelectActivity.this, TicketPreviewActivity.class);
+                ticketPreviewIntent.putExtra("ticketSerialnumber",ticketSerialnumber);
+                ticketPreviewIntent.putExtra("ActivityDocumentId",selectActivityDocumentID);
+                startActivity(ticketPreviewIntent);
 
             }
         });
@@ -238,8 +235,6 @@ public class SeatSelectActivity extends AppCompatActivity {
                     modelSeatSelectArrayList.clear();
 
                     for (DocumentSnapshot snapshot : value.getDocuments()) {
-
-                        System.out.println(snapshot.getData());
 
                         Map<String, Object> data = snapshot.getData();
 

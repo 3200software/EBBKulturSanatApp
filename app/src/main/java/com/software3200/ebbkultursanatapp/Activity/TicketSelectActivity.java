@@ -524,6 +524,7 @@ public class TicketSelectActivity extends AppCompatActivity {
                     HashMap<String, Object> ticketInfo = new HashMap<>();
                     ticketInfo.put("totalTicketPiece", totalTicketPiece);
                     ticketInfo.put("totalTicketPrice", totalTicketPrice);
+                    ticketInfo.put("ticketPriceString", String.valueOf(totalTicketPrice));
 
                     firebaseFirestore.collection("Users").document(firebaseAuth.getCurrentUser().getEmail()).collection("Tickets").document(ticketSerialnumber).update(ticketInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
