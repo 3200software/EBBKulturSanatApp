@@ -526,7 +526,7 @@ public class TicketSelectActivity extends AppCompatActivity {
                     ticketInfo.put("totalTicketPrice", totalTicketPrice);
                     ticketInfo.put("ticketPriceString", String.valueOf(totalTicketPrice));
 
-                    firebaseFirestore.collection("Users").document(firebaseAuth.getCurrentUser().getEmail()).collection("Tickets").document(ticketSerialnumber).update(ticketInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    firebaseFirestore.collection("Tickets").document(ticketSerialnumber).update(ticketInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
 

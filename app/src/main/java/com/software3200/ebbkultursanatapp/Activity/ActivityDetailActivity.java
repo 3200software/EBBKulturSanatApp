@@ -123,10 +123,11 @@ public class ActivityDetailActivity extends AppCompatActivity {
                 ticketInfo.put("ticketDate", activityDateTimestampPublic);
                 ticketInfo.put("nameSurname",nameSurname);
                 ticketInfo.put("ticketPriceString","");
+                ticketInfo.put("ticketUserEmail",firebaseAuth.getCurrentUser().getEmail());
 
 
 
-                firebaseFirestore.collection("Users").document(firebaseAuth.getCurrentUser().getEmail()).collection("Tickets").document(ticketSerialnumber).set(ticketInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
+                firebaseFirestore.collection("Tickets").document(ticketSerialnumber).set(ticketInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
 

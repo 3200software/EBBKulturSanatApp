@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.software3200.ebbkultursanatapp.Activity.AuthActivity;
 import com.software3200.ebbkultursanatapp.Activity.MainActivity;
+import com.software3200.ebbkultursanatapp.Activity.UserTicketsActivity;
 import com.software3200.ebbkultursanatapp.databinding.FragmentAccountBinding;
 
 
@@ -57,7 +58,7 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Intent signOutIntent = new Intent(requireActivity(), MainActivity.class);
+                Intent signOutIntent = new Intent(requireActivity(), UserTicketsActivity.class);
                 startActivity(signOutIntent);
 
             }

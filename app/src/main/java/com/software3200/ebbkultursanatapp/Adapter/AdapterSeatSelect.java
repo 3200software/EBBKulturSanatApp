@@ -191,7 +191,7 @@ public class AdapterSeatSelect extends RecyclerView.Adapter<AdapterSeatSelect.Se
                     });
 
 
-                    firebaseFirestore.collection("Users").document(firebaseAuth.getCurrentUser().getEmail()).collection("Tickets").document(modelSeatSelectArrayList.get(position).ticketSerialnumber).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    firebaseFirestore.collection("Tickets").document(modelSeatSelectArrayList.get(position).ticketSerialnumber).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 

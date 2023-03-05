@@ -2,12 +2,15 @@ package com.software3200.ebbkultursanatapp.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Toast;
 
@@ -33,6 +36,7 @@ import com.software3200.ebbkultursanatapp.R;
 import com.software3200.ebbkultursanatapp.databinding.ActivityTicketPreviewBinding;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
@@ -55,6 +59,7 @@ public class TicketPreviewActivity extends AppCompatActivity {
     String activityDocumentId;
 
     ArrayList<String> userSeatArrayList;
+    ArrayList<String> userSeatDocumentIdArrayList;
     String qrCodeText;
     Bitmap qrCodeBitmap;
 
@@ -76,6 +81,10 @@ public class TicketPreviewActivity extends AppCompatActivity {
         activityDocumentId = getSeatSelectIntent.getStringExtra("ActivityDocumentId");
 
         userSeatArrayList = new ArrayList<>();
+        userSeatDocumentIdArrayList = new ArrayList<>();
+
+
+
 
         getTicketPrewiew();
         getuserSeat();
@@ -86,7 +95,7 @@ public class TicketPreviewActivity extends AppCompatActivity {
 
                 UUID ticketUUID = UUID.randomUUID();
 
-                qrCodeText = "EBB-"  + ticketSerialnumber + "-" + activityDocumentId + ticketUUID;
+                qrCodeText =  ticketSerialnumber + "-" + activityDocumentId + ticketUUID;
                 MultiFormatWriter writer = new MultiFormatWriter();
 
                 try {
@@ -94,15 +103,16 @@ public class TicketPreviewActivity extends AppCompatActivity {
                     BitMatrix matrix = writer.encode(qrCodeText, BarcodeFormat.QR_CODE,400,400);
                     BarcodeEncoder encoder = new BarcodeEncoder();
                     qrCodeBitmap = encoder.createBitmap(matrix);
-                    qrCodeBitmap = URI.create(encoder.createBitmap(matrix));
-                    Uri imageData = Uri.EMPTY;
+                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                    qrCodeBitmap.compress(Bitmap.CompressFormat.JPEG,100,bytes);
 
-
+                    String uriPath = MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(),qrCodeBitmap,"val",null);
+                    Uri qrUri = Uri.parse(uriPath);
 
                     String qrStorageName = "TicketsQrImage/" + qrCodeText + ".jpg";
 
 
-                    storageReference.child(qrStorageName).putFile(imageData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    storageReference.child(qrStorageName).putFile(qrUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
@@ -119,47 +129,114 @@ public class TicketPreviewActivity extends AppCompatActivity {
                                     ticketcreateUpdate.put("ticketSeatName",userSeatArrayList.toString());
                                     ticketcreateUpdate.put("ticketSuccess",true);
 
-                                    firebaseFirestore.collection("Users").document(firebaseAuth.getCurrentUser().getEmail()).collection("Tickets").document(ticketSerialnumber).update(ticketcreateUpdate).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    firebaseFirestore.collection("Tickets").document(ticketSerialnumber).update(ticketcreateUpdate).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void unused) {
 
-                                            Intent successIntent = new Intent(TicketPreviewActivity.this, MainActivity.class);
+
+                                            for (String documentIds : userSeatDocumentIdArrayList) {
+
+                                                HashMap<String, Object> seatStatusUpdate = new HashMap<>();
+                                                seatStatusUpdate.put("seatStatus",1);
+
+                                                firebaseFirestore.collection("Events").document(activityDocumentId).collection("Saloon").document(documentIds).update(seatStatusUpdate).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+
+
+                                                        if (task.isSuccessful()) {
+
+
+
+                                                        } else {
+
+
+                                                            AlertDialog.Builder seatAlert = new AlertDialog.Builder(TicketPreviewActivity.this);
+                                                            seatAlert.setTitle("Uyarı");
+                                                            seatAlert.setTitle("Bilet oluşturuken bir sorun oluştu. Lütfen tekrar deneyin");
+                                                            seatAlert.setPositiveButton("Tamam", new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialog, int which) {
+
+                                                                    HashMap<String, Object> ticketcreateUpdate = new HashMap<>();
+                                                                    ticketcreateUpdate.put("ticketQrCode","");
+                                                                    ticketcreateUpdate.put("ticketQrImage","");
+                                                                    ticketcreateUpdate.put("ticketSeatName","");
+                                                                    ticketcreateUpdate.put("ticketSuccess",false);
+
+                                                                    firebaseFirestore.collection("Tickets").document(ticketSerialnumber).update(ticketcreateUpdate).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                        @Override
+                                                                        public void onSuccess(Void unused) {
+
+                                                                            onBackPressed();
+
+                                                                        }
+                                                                    });
+
+
+
+                                                                }
+                                                            });
+
+                                                            seatAlert.show();
+
+
+                                                        }
+
+
+                                                    }
+                                                });
+
+
+                                            }
+
+
+
+                                            Intent successIntent = new Intent(TicketPreviewActivity.this, TicketActivity.class);
+                                            successIntent.putExtra("ticketSerialnumber",ticketSerialnumber);
+                                            successIntent.putExtra("ticketGoToPage","TicketPreviewPage");
                                             startActivity(successIntent);
 
 
 
                                         }
-                                    });
+
+
+                                });
+
+
 
                                 }
+
+
+
+
+
+                            }).addOnFailureListener(new OnFailureListener() {
+
+                                @Override
+
+                                public void onFailure(@NonNull Exception e) {
+
+
+
+                                }
+
+
+
                             });
 
-
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
+                        };
 
 
 
-                        }
                     });
-
-
-
 
                 } catch (WriterException e) {
 
                     e.printStackTrace();
 
                 }
-
-
-
-
-
-
-
 
             }
         });
@@ -169,7 +246,7 @@ public class TicketPreviewActivity extends AppCompatActivity {
 
     public void getTicketPrewiew () {
 
-        firebaseFirestore.collection("Users").document(firebaseAuth.getCurrentUser().getEmail()).collection("Tickets").document(ticketSerialnumber).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        firebaseFirestore.collection("Tickets").document(ticketSerialnumber).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
@@ -229,8 +306,11 @@ public class TicketPreviewActivity extends AppCompatActivity {
 
                         String seatName = (String) document.get("seatName");
 
+                        String documentId = snapshot.getId();
+
                         userSeatArrayList.add(seatName);
 
+                        userSeatDocumentIdArrayList.add(documentId);
 
 
                     }
@@ -247,8 +327,49 @@ public class TicketPreviewActivity extends AppCompatActivity {
         });
 
 
+        /*
+
+        for (String item: userSeatArrayList) {
+
+            firebaseFirestore.collection("Events").document(activityDocumentId).collection("Saloon").whereEqualTo("seatName",item).addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+
+
+                    if (error != null) {
+
+                        Toast.makeText(TicketPreviewActivity.this, "İnternet bağlanınızda bir problem var! Lütfen daha sonra tekrar deneyiniz.", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    if (value != null) {
+
+
+                        for (DocumentSnapshot snapshot : value.getDocuments() ) {
+
+
+                            Map<String, Object> document = snapshot.getData();
+
+                            String documentId = snapshot.getId();
+
+
+
+                        }
+
+
+                    }
+
+                }
+
+
+            });
+
+        }
+
+        */
 
     }
+
 
 
 
