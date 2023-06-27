@@ -13,6 +13,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -35,6 +36,8 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth firebaseAuth;
+
+    FirebaseUser currentUser;
 
     String selectActivityDocumentID;
     String selectActivityName;
@@ -82,6 +85,8 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
         firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
+        currentUser = firebaseAuth.getCurrentUser();
+
 
         Intent intent = getIntent();
         selectActivityDocumentID = intent.getStringExtra("ActivityDocumentId");
@@ -96,7 +101,29 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
 
         getActivityDetail();
-        getUsers();
+
+        if (currentUser != null) {
+
+
+            if (currentUser.getEmail().equals("")){
+
+
+
+
+            } else {
+
+
+                getUsers();
+
+            }
+
+
+
+
+
+        }
+
+
 
         System.out.println(activityTicketClass1Price);
 
